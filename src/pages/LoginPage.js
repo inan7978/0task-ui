@@ -1,9 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement } from "../redux-stuff/counterSlice";
+import {
+  increment,
+  decrement,
+  timesTwo,
+  setZero,
+} from "../redux-stuff/counterSlice";
 
 export default function LoginPage() {
   const counter = useSelector((state) => state.counter.value);
+  const counter2 = useSelector((state) => state.counter.value2);
   const dispatch = useDispatch();
 
   return (
@@ -17,9 +23,39 @@ export default function LoginPage() {
           ```
         */}
 
-      <h1>Counter: {counter}</h1>
-      <button onClick={() => dispatch(increment())}>increment</button>
-      <button onClick={() => dispatch(decrement())}>decrement</button>
+      <h1>value: {counter}</h1>
+      <button
+        onClick={() => dispatch(increment({ valueName: "value", data: 1 }))}
+      >
+        increment value
+      </button>
+      <button
+        onClick={() => dispatch(decrement({ valueName: "value", data: 1 }))}
+      >
+        decrement value
+      </button>
+      <button
+        onClick={() => dispatch(setZero({ valueName: "value", data: 1 }))}
+      >
+        zero value
+      </button>
+
+      <h1>value2: {counter2}</h1>
+      <button
+        onClick={() => dispatch(increment({ valueName: "value2", data: 1 }))}
+      >
+        increment value
+      </button>
+      <button
+        onClick={() => dispatch(decrement({ valueName: "value2", data: 1 }))}
+      >
+        decrement value
+      </button>
+      <button
+        onClick={() => dispatch(setZero({ valueName: "value2", data: 1 }))}
+      >
+        zero value
+      </button>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
