@@ -4,13 +4,19 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const counterSlice = createSlice({
+const userSlice = createSlice({
   name: "counter",
   initialState: {
-    value: 0,
-    value2: 99,
-    value3: false,
-    value8: "hell yea",
+    _id: 0,
+    fname: "",
+    lname: "",
+    email: "",
+    tasks: [
+      {
+        description: "no tasks loaded",
+        completed: false,
+      },
+    ],
   },
   reducers: {
     increment(state, action) {
@@ -31,5 +37,5 @@ const counterSlice = createSlice({
   },
 });
 
-export const { increment, decrement, setZero } = counterSlice.actions;
-export default counterSlice.reducer;
+export const { increment, decrement, setZero } = userSlice.actions;
+export default userSlice.reducer;

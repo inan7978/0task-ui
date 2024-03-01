@@ -8,22 +8,12 @@ import {
 } from "../redux-stuff/counterSlice";
 
 export default function LoginPage() {
-  const counter = useSelector((state) => state.counter.value);
-  const counter2 = useSelector((state) => state.counter.value2);
+  const user = useSelector((state) => state.counter._id);
   const dispatch = useDispatch();
 
   return (
     <div className="bg-gray-900">
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-gray-900">
-          <body class="h-full">
-          ```
-        */}
-
-      <h1>value: {counter}</h1>
+      <h1>value: {user}</h1>
       <button
         onClick={() => dispatch(increment({ valueName: "value", data: 1 }))}
       >
@@ -40,22 +30,6 @@ export default function LoginPage() {
         zero value
       </button>
 
-      <h1>value2: {counter2}</h1>
-      <button
-        onClick={() => dispatch(increment({ valueName: "value2", data: 1 }))}
-      >
-        increment value
-      </button>
-      <button
-        onClick={() => dispatch(decrement({ valueName: "value2", data: 1 }))}
-      >
-        decrement value
-      </button>
-      <button
-        onClick={() => dispatch(setZero({ valueName: "value2", data: 1 }))}
-      >
-        zero value
-      </button>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
