@@ -4,9 +4,11 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const userSlice = createSlice({
+const counterSlice = createSlice({
   name: "counter",
   initialState: {
+    accessToken: "",
+    refreshToken: "",
     _id: 0,
     fname: "",
     lname: "",
@@ -19,23 +21,17 @@ const userSlice = createSlice({
     ],
   },
   reducers: {
-    increment(state, action) {
+    setAccess(state, action) {
       // action.payload is the payload of the action that was dispatched. It destructures it.
       const { valueName, data } = action.payload;
-      state[valueName] += data;
+      state[valueName] = data;
     },
-    decrement(state, action) {
-      // action.payload is the payload of the action that was dispatched. It destructures it.
+    setFields(state, action) {
       const { valueName, data } = action.payload;
-      state[valueName] -= data;
-    },
-    setZero(state, action) {
-      // action.payload is the payload of the action that was dispatched. It destructures it.
-      const { valueName, data } = action.payload;
-      state[valueName] = 0;
+      state[valueName] = data;
     },
   },
 });
 
-export const { increment, decrement, setZero } = userSlice.actions;
-export default userSlice.reducer;
+export const { setAccess, setFields } = counterSlice.actions;
+export default counterSlice.reducer;

@@ -1,35 +1,66 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  increment,
-  decrement,
-  timesTwo,
-  setZero,
-} from "../redux-stuff/counterSlice";
+import { useNavigate } from "react-router-dom";
+import { setAccess, setFields } from "../redux-stuff/counterSlice";
 
 export default function LoginPage() {
   const user = useSelector((state) => state.counter._id);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  async function login(email, password) {
+    const getTokens = await fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+
+    const data = await getTokens.json();
+    dispatch(
+      setAccess({ valueName: "accessToken", data: `${data.accessToken}` })
+    );
+    dispatch(
+      setAccess({ valueName: "refreshToken", data: `${data.refreshToken}` })
+    );
+
+    getData(data.accessToken);
+    // navigate("../user-info");
+  }
+
+  async function getData(token) {
+    const getData = await fetch("http://localhost:3001/user-records", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await getData.json();
+    // console.log(data[0].tasks);
+
+    if (getData.ok) {
+      dispatch(setFields({ valueName: "fname", data: `${data[0].fname}` }));
+      dispatch(setFields({ valueName: "lname", data: `${data[0].lname}` }));
+      dispatch(setFields({ valueName: "email", data: `${data[0].email}` }));
+      dispatch(setFields({ valueName: "_id", data: `${data[0]._id}` }));
+      dispatch(
+        setFields({
+          valueName: "tasks",
+          data: data[0].tasks,
+        })
+      );
+
+      navigate("../user-info");
+    } else {
+      alert("An error occured!");
+    }
+  }
 
   return (
     <div className="bg-gray-900">
-      <h1>value: {user}</h1>
-      <button
-        onClick={() => dispatch(increment({ valueName: "value", data: 1 }))}
-      >
-        increment value
-      </button>
-      <button
-        onClick={() => dispatch(decrement({ valueName: "value", data: 1 }))}
-      >
-        decrement value
-      </button>
-      <button
-        onClick={() => dispatch(setZero({ valueName: "value", data: 1 }))}
-      >
-        zero value
-      </button>
-
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -43,7 +74,16 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              login(
+                document.getElementById("email").value,
+                document.getElementById("password").value
+              );
+            }}
+          >
             <div>
               <label
                 htmlFor="email"
