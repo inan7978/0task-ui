@@ -33,7 +33,7 @@ function UserInfo() {
   return (
     <div className="container mx-auto flex flex-col items-center">
       <h1 className={infoStyles}>Refresh token: {refreshToken.length}</h1>
-      <h1 className={infoStyles}>Access token: {accessToken.length}</h1>
+      <h1 className={infoStyles}>Access token: {accessToken}</h1>
       <h1 className={infoStyles}>UserID: {userID}</h1>
       <h1 className={infoStyles}>First Name: {fname}</h1>
       <h1 className={infoStyles}>Last Name: {lname}</h1>

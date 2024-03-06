@@ -1,108 +1,58 @@
 import { useState, useEffect } from "react";
+import { UseSelector, useDispatch, useSelector } from "react-redux";
 
 function TasksPage() {
-  const [remaining, setRemaining] = useState(0);
+  const [tasks, setTasks] = useState([
+    { description: "nothing here", completed: "false" },
+  ]);
+  const token = useSelector((state) => state.counter.accessToken);
 
-  function getRemaining(count) {
-    setRemaining(count);
+  // console.log(temp);
+  useEffect(() => {
+    async function getTasks(token) {
+      const tasks = await fetch("http://localhost:3001/get-tasks", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await tasks.json();
+      console.log("data", JSON.stringify(data.tasks));
+      setTasks(data.tasks);
+    }
+
+    getTasks(token);
+  }, []);
+
+  function Task(props) {
+    return (
+      <div className="container mx-auto flex gap-5 items-center justify-between h-10 bg-red-800 my-5 p-2">
+        <h1 className="text-white text-xl">{props.task.description}</h1>
+        <input
+          className="h-7 w-7"
+          type="checkbox"
+          defaultChecked={props.task.completed}
+        />
+      </div>
+    );
   }
 
+  const mappedTasks = tasks
+    ? tasks.map((task) => {
+        return <Task key={task.description} task={task} />;
+      })
+    : null;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        {remaining > 0 ? (
-          <h1>
-            {" "}
-            ToDo: {remaining}{" "}
-            {(remaining > 1 && "Items remain") ||
-              (remaining === 1 && "Item left!") ||
-              (remaining < 1 && "left. Nice work!")}
-          </h1>
-        ) : (
-          <h1>All done!</h1>
-        )}
-      </header>
-      <List getRemaining={getRemaining} />
+    <div className="container mx-auto sm:w-4/5 md:w-1/2 lg:max-w-[1000px]">
+      <h1 className="text-white text-center text-3xl my-20">
+        Tasks Remaining:{" "}
+        {tasks ? tasks.filter((task) => task.completed === true).length : 0}
+      </h1>
+      {mappedTasks}
     </div>
-  );
-}
-
-function List({ getRemaining }) {
-  const [list, setList] = useState([]);
-  const [doneList, setDoneList] = useState([]);
-  const [newTask, setNewTask] = useState("");
-
-  var counter = 0;
-  list.filter((item) => {
-    return item.completed === false && counter++;
-  });
-
-  useEffect(() => {}, []);
-
-  ////////////////////////////////////// This area fetches the Tasks
-  useEffect(() => {}, [list.length]);
-
-  /////////////////////////////////// This is the handler for creating a task
-  async function handleSubmit(e) {}
-  //////////////////////////////////// This is the handler for when you delete a task
-  async function handleDelete(val) {}
-  //////////////////////////////////// This is the handler for when you check a task off
-  async function handleComplete(val) {}
-
-  ////////////////////////////////////////////// This maps the current list
-  const mappedItems = list.map((item) => {
-    return (
-      <li
-        key={list.indexOf(item)}
-        className={
-          item.completed ? "task-container-completed" : "task-container"
-        }
-      >
-        <div className="checkbox-container">
-          <input
-            className="checkbox"
-            type="checkbox"
-            defaultChecked={item.completed}
-            onChange={(e) => {
-              handleComplete(item);
-            }}
-          />
-        </div>
-        <div className="text-container">
-          <span className="task-text">{item.task}</span>
-        </div>
-        <div className="del-btn-container">
-          <button
-            className="del-btn"
-            onClick={() => {
-              handleDelete(item);
-            }}
-          >
-            X
-          </button>
-        </div>
-      </li>
-    );
-  });
-  ////////////////////////////////////// This is what renders
-  return (
-    <>
-      <form onSubmit={handleSubmit} className="new-task-field">
-        <input
-          className={"new-task-text"}
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-        />
-        <button className={"new-task-button"} type="submit">
-          +
-        </button>
-      </form>
-      <div className="all-tasks-container">
-        {list.length > 0
-          ? mappedItems
-          : "Im sure you can find something to do 😉"}
-      </div>
-    </>
   );
 }
 

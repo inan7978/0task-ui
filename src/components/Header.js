@@ -43,8 +43,10 @@ export default function Example() {
           {navigation.map((item) => (
             <a
               key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-white"
+              onClick={() => {
+                navigate("../tasks");
+              }}
+              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
             >
               {item.name}
             </a>
