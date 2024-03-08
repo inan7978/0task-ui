@@ -21,6 +21,7 @@ function TasksPage() {
 
     if (data.status === -1) {
       console("A server error has occured. The new task was not added.");
+      getTasks(token);
     } else {
       document.getElementById("new-task").value = "";
       getTasks(token);
@@ -45,6 +46,58 @@ function TasksPage() {
 
     if (data.status === -1) {
       console("A server error has occured. The new task was not deleted.");
+      getTasks(token);
+    } else {
+      getTasks(token);
+      console.log(data);
+    }
+  }
+
+  async function completeTask(toComplete) {
+    console.log("Requesting to mark as completed: ", toComplete);
+    const response = await fetch("http://localhost:3001/toggle-done", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        toComplete: toComplete,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.status === -1) {
+      console.log(
+        "A server error has occured. The new task was not completed."
+      );
+      getTasks(token);
+    } else {
+      getTasks(token);
+      console.log(data);
+    }
+  }
+  async function uncompleteTask(toUncomplete) {
+    console.log("Requesting to mark as uncompleted: ", toUncomplete);
+    const response = await fetch("http://localhost:3001/toggle-not-done", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        toUncomplete: toUncomplete,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.status === -1) {
+      console.log(
+        "A server error has occured. The new task was not marked as needing completion."
+      );
+      getTasks(token);
     } else {
       getTasks(token);
       console.log(data);
@@ -71,7 +124,15 @@ function TasksPage() {
 
   const mappedTasks = tasks
     ? tasks.map((task) => {
-        return <Task key={task._id} task={task} deleteTask={deleteTask} />;
+        return (
+          <Task
+            key={task._id}
+            task={task}
+            deleteTask={deleteTask}
+            completeTask={completeTask}
+            uncompleteTask={uncompleteTask}
+          />
+        );
       })
     : null;
 
@@ -87,7 +148,7 @@ function TasksPage() {
           createTask(document.getElementById("new-task").value);
         }}
       >
-        <div className="container flex mb-20 gap-5 w-full justify-center">
+        <div className="container flex mb-20 gap-5 w-full justify-center p-2">
           <input className="w-full" id="new-task" />
           <button
             className="text-white bg-green-500 w-24 font-bold xl-text"
@@ -97,18 +158,21 @@ function TasksPage() {
           </button>
         </div>
       </form>
-      {mappedTasks}
+      <div className="p-2">{mappedTasks}</div>
     </div>
   );
 }
 
-function Task({ task, deleteTask }) {
+function Task({ task, deleteTask, uncompleteTask, completeTask }) {
   return (
     <div className="container mx-auto flex gap-5 items-center justify-between bg-red-800 my-5 p-2">
       <input
         className="h-7 w-7"
         type="checkbox"
         defaultChecked={task.completed}
+        onChange={() => {
+          task.completed ? uncompleteTask(task._id) : completeTask(task._id);
+        }}
       />
       <h1 className="text-white text-xl">{task.description}</h1>
       <button
