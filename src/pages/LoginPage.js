@@ -53,7 +53,7 @@ export default function LoginPage() {
         })
       );
 
-      navigate("../user-info");
+      navigate("../tasks");
     } else {
       alert("An error occured!");
     }

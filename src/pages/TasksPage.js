@@ -3,7 +3,6 @@ import { UseSelector, useDispatch, useSelector } from "react-redux";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
-  // const [trigger, setTrigger] = useState(["trigger"]);
   const token = useSelector((state) => state.counter.accessToken);
 
   async function createTask() {
@@ -22,6 +21,30 @@ function TasksPage() {
 
     if (data.status === -1) {
       console("A server error has occured. The new task was not added.");
+    } else {
+      document.getElementById("new-task").value = "";
+      getTasks(token);
+      console.log(data);
+    }
+  }
+
+  async function deleteTask(toDelete) {
+    console.log("Request to delete: ", toDelete);
+    const response = await fetch("http://localhost:3001/delete-task", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        toDelete: toDelete,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.status === -1) {
+      console("A server error has occured. The new task was not deleted.");
     } else {
       getTasks(token);
       console.log(data);
@@ -48,7 +71,7 @@ function TasksPage() {
 
   const mappedTasks = tasks
     ? tasks.map((task) => {
-        return <Task key={task._id} task={task} />;
+        return <Task key={task._id} task={task} deleteTask={deleteTask} />;
       })
     : null;
 
@@ -79,15 +102,22 @@ function TasksPage() {
   );
 }
 
-function Task(props) {
+function Task({ task, deleteTask }) {
   return (
-    <div className="container mx-auto flex gap-5 items-center justify-between h-10 bg-red-800 my-5 p-2">
-      <h1 className="text-white text-xl">{props.task.description}</h1>
+    <div className="container mx-auto flex gap-5 items-center justify-between bg-red-800 my-5 p-2">
       <input
         className="h-7 w-7"
         type="checkbox"
-        defaultChecked={props.task.completed}
+        defaultChecked={task.completed}
       />
+      <h1 className="text-white text-xl">{task.description}</h1>
+      <button
+        onClick={() => {
+          deleteTask(task._id);
+        }}
+      >
+        X
+      </button>
     </div>
   );
 }
