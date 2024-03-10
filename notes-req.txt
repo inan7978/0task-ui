@@ -1,0 +1,7 @@
+Notes page:
+
+Will allow a user to search between their notes.
+Will allow user to edit notes
+Will allow user to create new notes
+
+Will show a preview like page on landing that has all of their notes that they can then click and expand to fully view
