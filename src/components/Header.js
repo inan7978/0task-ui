@@ -4,9 +4,9 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
-  { name: "Notes", href: "#" },
-  { name: "Tools", href: "#" },
-  { name: "Tasks", href: "#" },
+  { name: "Notes", to: "notes" },
+  { name: "Tools", to: "tools" },
+  { name: "Tasks", to: "tasks" },
 ];
 
 export default function Example() {
@@ -44,7 +44,7 @@ export default function Example() {
             <a
               key={item.name}
               onClick={() => {
-                navigate("../tasks");
+                navigate(`../${item.to}`);
               }}
               className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
             >
@@ -95,7 +95,10 @@ export default function Example() {
                 {navigation.map((item) => (
                   <a
                     key={item.name}
-                    href={item.href}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate(`../${item.to}`);
+                    }}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800"
                   >
                     {item.name}

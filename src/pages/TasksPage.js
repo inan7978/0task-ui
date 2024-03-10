@@ -158,14 +158,22 @@ function TasksPage() {
           </button>
         </div>
       </form>
-      <div className="p-2">{mappedTasks}</div>
+      <div className="p-2 text-center">
+        {tasks.length > 0 ? (
+          mappedTasks
+        ) : (
+          <h1 className="2xl-text font-bold text-white">
+            Im sure you can find something to do 😉
+          </h1>
+        )}
+      </div>
     </div>
   );
 }
 
 function Task({ task, deleteTask, uncompleteTask, completeTask }) {
   return (
-    <div className="container mx-auto flex gap-5 items-center justify-between bg-red-800 my-5 p-2">
+    <div className="container mx-auto flex gap-5 items-center justify-between bg-red-800 rounded my-5 p-2">
       <input
         className="h-7 w-7"
         type="checkbox"
