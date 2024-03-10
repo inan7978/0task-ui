@@ -3,10 +3,12 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
+// simply add the name and the path
 const navigation = [
   { name: "Notes", to: "notes" },
   { name: "Tools", to: "tools" },
   { name: "Tasks", to: "tasks" },
+  { name: "User Info", to: "user-info" },
 ];
 
 export default function Example() {
