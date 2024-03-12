@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UseSelector, useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -114,7 +114,7 @@ function TasksPage() {
     });
 
     const data = await tasks.json();
-    console.log("data", JSON.stringify(data.tasks));
+    console.log("Tasks", JSON.stringify(data.tasks));
     setTasks(data.tasks);
   }
 
