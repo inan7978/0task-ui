@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 function NotesPage() {
   const [notes, setNotes] = useState([""]);
+  const [newNote, setNewNote] = useState(false);
   const token = useSelector((state) => state.counter.accessToken);
   useEffect(() => {
     getNotes(token);
@@ -29,9 +30,13 @@ function NotesPage() {
 
   return (
     <div className="container mx-auto flex flex-col justify-center items-center max-w-screen-xl">
-      <h1 className="text-white text-3xl font-bold my-10">{`${notes.length} notes`}</h1>
+      {/* <h1 className="text-white text-3xl font-bold my-10">{`${notes.length} notes`}</h1> */}
+      <div className="flex gap-5 my-10">
+        <input placeholder="Search notes..." />
+        <button className="p-2 text-white bg-green-500">New Note</button>
+      </div>
       <div className="flex-col flex flex-wrap justify-center gap-5 sm:flex-row">
-        {mappedNotes}
+        {notes.length >= 1 ? mappedNotes : null}
       </div>
     </div>
   );
@@ -39,8 +44,8 @@ function NotesPage() {
 
 function Note({ note }) {
   return (
-    <div className="flex flex-col justify-start max-h-72 p-5 mb-5 bg-white rounded overflow-hidden">
-      <pre>{note.description}</pre>
+    <div className="flex flex-col justify-start max-w-[95vw] sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden">
+      <pre style={{ "white-space": "pre-wrap" }}>{note.description}</pre>
     </div>
   );
 }

@@ -149,7 +149,7 @@ function TasksPage() {
         }}
       >
         <div className="container flex mb-20 gap-5 w-full justify-center p-2">
-          <input className="w-full" id="new-task" />
+          <input className="w-full" id="new-task" placeholder="New task..." />
           <button
             className="text-white bg-green-500 w-24 font-bold xl-text"
             type="submit"
