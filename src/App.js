@@ -7,6 +7,7 @@ import NotesPage from "./pages/NotesPage";
 import ToolsPage from "./pages/ToolsPage";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import EditNotePage from "./pages/EditNotePage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/notes" element={<NotesPage />} />
         <Route path="/tasks" element={<TasksPage />} />
         <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/edit-note" element={<EditNotePage />} />
       </Routes>
     </>
   );

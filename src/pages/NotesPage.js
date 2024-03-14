@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function NotesPage() {
   const [notes, setNotes] = useState([""]);
@@ -72,30 +73,23 @@ function NotesPage() {
 }
 
 function Note({ note }) {
-  const [editing, setEditing] = useState(false);
-
+  const navigate = useNavigate();
   return (
-    <>
-      {editing && <EditNote note={note} />}
-      <div
-        onClick={() => {
-          console.log(`Note ${note._id} clicked`);
-          setEditing(!editing);
-        }}
-        className="flex flex-col justify-start max-w-[95vw] min-w-36 sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden"
-      >
-        <pre style={{ "white-space": "pre-wrap" }}>{note.description}</pre>
-      </div>
-    </>
-  );
-}
+    <div
+      onClick={(e) => {
+        e.preventDefault();
+        console.log(`Note ${note._id} clicked`);
 
-function EditNote({ note }) {
-  const [value, setValue] = useState(note.description);
-
-  return (
-    <div className="absolute bg-black opacity-85 flex justify-center">
-      <textarea value={value} onChange={(e) => setValue(e.target.value)} />
+        navigate("../edit-note", {
+          state: {
+            _id: note._id,
+            description: note.description,
+          },
+        });
+      }}
+      className="flex flex-col justify-start max-w-[95vw] min-w-36 sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden"
+    >
+      <pre style={{ "white-space": "pre-wrap" }}>{note.description}</pre>
     </div>
   );
 }
