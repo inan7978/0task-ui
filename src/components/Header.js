@@ -8,7 +8,7 @@ const navigation = [
   { name: "Notes", to: "notes" },
   { name: "Tools", to: "tools" },
   { name: "Tasks", to: "tasks" },
-  { name: "User Info", to: "user-info" },
+  // { name: "User Info", to: "user-info" },
 ];
 
 export default function Example() {

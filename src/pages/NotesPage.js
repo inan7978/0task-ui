@@ -64,7 +64,7 @@ function NotesPage() {
             New Note
           </button>
         </div>
-        <div className="flex-col flex flex-wrap justify-center gap-5 sm:flex-row">
+        <div className="flex flex-col justify-center gap">
           {notes.length >= 1 ? mappedNotes : null}
         </div>
       </div>
@@ -87,7 +87,7 @@ function Note({ note }) {
           },
         });
       }}
-      className="flex flex-col justify-start max-w-[95vw] min-w-36 sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden"
+      className="flex flex-col justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden"
     >
       <pre style={{ "white-space": "pre-wrap" }}>{note.description}</pre>
     </div>
