@@ -11,7 +11,7 @@ function EditNotePage() {
 
   async function saveChanges() {
     const updated = document.getElementById("edit-note").value;
-    console.log(updated);
+    // console.log(updated);
 
     const updateNote = await fetch("http://localhost:3001/edit-note", {
       method: "POST",
@@ -35,8 +35,33 @@ function EditNotePage() {
     }
   }
 
+  async function deleteNote() {
+    const deleteNote = await fetch("http://localhost:3001/delete-note", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ toDelete: _id }),
+    });
+
+    const result = await deleteNote.json();
+
+    console.log(result.status);
+
+    navigate("../notes");
+  }
+
   return (
     <div className="container mx-auto flex flex-col justify-center items-center my-10">
+      <button
+        className="mb-5 bg-red-400 text-red-900 rounded p-2"
+        onClick={() => {
+          deleteNote();
+        }}
+      >
+        Delete Note
+      </button>
       <textarea
         className="h-96 w-11/12  max-w-[720px] rounded resize-none"
         defaultValue={description}

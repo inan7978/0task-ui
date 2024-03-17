@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function NotesPage() {
-  const [notes, setNotes] = useState([""]);
+  const [notes, setNotes] = useState([]);
   const token = useSelector((state) => state.counter.accessToken);
   useEffect(() => {
     getNotes(token);
@@ -18,7 +18,7 @@ function NotesPage() {
     });
 
     const data = await notes.json();
-    console.log("Notes: ", JSON.stringify(data.notes));
+    // console.log("Notes: ", JSON.stringify(data.notes));
     setNotes(data.notes);
   }
 
@@ -52,14 +52,13 @@ function NotesPage() {
   return (
     <div>
       <div className="container mx-auto flex flex-col justify-center items-center max-w-screen-xl">
-        {/* <h1 className="text-white text-3xl font-bold my-10">{`${notes.length} notes`}</h1> */}
         <div className="flex gap-5 my-10">
-          <input placeholder="Search notes..." />
+          <input placeholder="Search notes..." className="rounded" />
           <button
             onClick={() => {
               newNote(token);
             }}
-            className="p-2 text-white bg-green-500"
+            className="p-2 text-white bg-green-500 rounded"
           >
             New Note
           </button>
@@ -78,7 +77,7 @@ function Note({ note }) {
     <div
       onClick={(e) => {
         e.preventDefault();
-        console.log(`Note ${note._id} clicked`);
+        // console.log(`Note ${note._id} clicked`);
 
         navigate("../edit-note", {
           state: {
@@ -89,7 +88,7 @@ function Note({ note }) {
       }}
       className="flex flex-col justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden"
     >
-      <pre style={{ "white-space": "pre-wrap" }}>{note.description}</pre>
+      <pre style={{ whiteSpace: "pre-wrap" }}>{note.description}</pre>
     </div>
   );
 }

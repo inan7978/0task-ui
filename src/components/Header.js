@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccess, setFields } from "../redux-stuff/counterSlice";
 
 // simply add the name and the path
 const navigation = [
@@ -12,8 +14,32 @@ const navigation = [
 ];
 
 export default function Example() {
+  const token = useSelector((state) => state.counter.accessToken);
+  const refreshToken = useSelector((state) => state.counter.refreshToken);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  async function logout() {
+    console.log("Log out has been clicked");
+    dispatch(setAccess({ valueName: "accessToken", data: `` }));
+    dispatch(setAccess({ valueName: "refreshToken", data: `` }));
+
+    const clearTokens = await fetch("http://localhost:3001/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refreshToken: refreshToken,
+        accessToken: token,
+      }),
+    });
+
+    const data = await clearTokens.json();
+
+    console.log(data.status);
+  }
 
   return (
     <header className="bg-gray-900">
@@ -55,14 +81,27 @@ export default function Example() {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-            onClick={() => {
-              navigate("./login");
-            }}
-            className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          {token === "" ? (
+            <a
+              onClick={() => {
+                navigate("./login");
+              }}
+              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </a>
+          ) : (
+            <a
+              onClick={() => {
+                logout();
+                setMobileMenuOpen(false);
+                navigate("./login");
+              }}
+              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800 hover:cursor-pointer"
+            >
+              Log out
+            </a>
+          )}
         </div>
       </nav>
       <Dialog
@@ -108,15 +147,28 @@ export default function Example() {
                 ))}
               </div>
               <div className="py-6">
-                <a
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    navigate("./login");
-                  }}
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800 hover:cursor-pointer"
-                >
-                  Log in
-                </a>
+                {token === "" ? (
+                  <a
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("./login");
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800 hover:cursor-pointer"
+                  >
+                    Log in
+                  </a>
+                ) : (
+                  <a
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                      navigate("./login");
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800 hover:cursor-pointer"
+                  >
+                    Log out
+                  </a>
+                )}
               </div>
             </div>
           </div>
