@@ -9,13 +9,16 @@ export default function LoginPage() {
   const dispatch = useDispatch();
 
   async function login(email, password) {
-    const getTokens = await fetch("http://localhost:3001/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({ email: email, password: password }),
-    });
+    const getTokens = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      }
+    );
 
     const data = await getTokens.json();
     dispatch(
@@ -30,13 +33,16 @@ export default function LoginPage() {
   }
 
   async function getData(token) {
-    const getData = await fetch("http://localhost:3001/user-records", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const getData = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/user-records",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = await getData.json();
     // console.log(data[0].tasks);

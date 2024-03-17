@@ -25,16 +25,19 @@ export default function Example() {
     dispatch(setAccess({ valueName: "accessToken", data: `` }));
     dispatch(setAccess({ valueName: "refreshToken", data: `` }));
 
-    const clearTokens = await fetch("http://localhost:3001/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refreshToken: refreshToken,
-        accessToken: token,
-      }),
-    });
+    const clearTokens = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/logout",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refreshToken: refreshToken,
+          accessToken: token,
+        }),
+      }
+    );
 
     const data = await clearTokens.json();
 

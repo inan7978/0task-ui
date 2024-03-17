@@ -9,13 +9,16 @@ function NotesPage() {
     getNotes(token);
   }, []);
   async function getNotes(token) {
-    const notes = await fetch("http://localhost:3001/get-notes", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const notes = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/get-notes",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = await notes.json();
     // console.log("Notes: ", JSON.stringify(data.notes));
@@ -23,14 +26,17 @@ function NotesPage() {
   }
 
   async function newNote(token) {
-    const addNote = await fetch("http://localhost:3001/new-note", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ description: "" }),
-    });
+    const addNote = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/new-note",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ description: "" }),
+      }
+    );
 
     const data = await addNote.json();
 

@@ -13,17 +13,20 @@ function EditNotePage() {
     const updated = document.getElementById("edit-note").value;
     // console.log(updated);
 
-    const updateNote = await fetch("http://localhost:3001/edit-note", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        noteId: _id,
-        newValue: updated,
-      }),
-    });
+    const updateNote = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/edit-note",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          noteId: _id,
+          newValue: updated,
+        }),
+      }
+    );
 
     const data = await updateNote.json();
 
@@ -36,14 +39,17 @@ function EditNotePage() {
   }
 
   async function deleteNote() {
-    const deleteNote = await fetch("http://localhost:3001/delete-note", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ toDelete: _id }),
-    });
+    const deleteNote = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/delete-note",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ toDelete: _id }),
+      }
+    );
 
     const result = await deleteNote.json();
 

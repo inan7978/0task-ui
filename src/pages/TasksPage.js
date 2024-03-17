@@ -6,16 +6,19 @@ function TasksPage() {
   const token = useSelector((state) => state.counter.accessToken);
 
   async function createTask() {
-    const response = await fetch("http://localhost:3001/new-task", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        description: document.getElementById("new-task").value,
-      }),
-    });
+    const response = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/new-task",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          description: document.getElementById("new-task").value,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -31,16 +34,19 @@ function TasksPage() {
 
   async function deleteTask(toDelete) {
     console.log("Request to delete: ", toDelete);
-    const response = await fetch("http://localhost:3001/delete-task", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        toDelete: toDelete,
-      }),
-    });
+    const response = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/delete-task",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          toDelete: toDelete,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -55,16 +61,19 @@ function TasksPage() {
 
   async function completeTask(toComplete) {
     console.log("Requesting to mark as completed: ", toComplete);
-    const response = await fetch("http://localhost:3001/toggle-done", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        toComplete: toComplete,
-      }),
-    });
+    const response = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/toggle-done",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          toComplete: toComplete,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -80,16 +89,19 @@ function TasksPage() {
   }
   async function uncompleteTask(toUncomplete) {
     console.log("Requesting to mark as uncompleted: ", toUncomplete);
-    const response = await fetch("http://localhost:3001/toggle-not-done", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        toUncomplete: toUncomplete,
-      }),
-    });
+    const response = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/toggle-not-done",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          toUncomplete: toUncomplete,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -105,13 +117,16 @@ function TasksPage() {
   }
 
   async function getTasks(token) {
-    const tasks = await fetch("http://localhost:3001/get-tasks", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const tasks = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/get-tasks",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = await tasks.json();
     console.log("Tasks", JSON.stringify(data.tasks));
