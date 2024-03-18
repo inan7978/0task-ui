@@ -10,7 +10,7 @@ const navigation = [
   { name: "Notes", to: "notes" },
   { name: "Tools", to: "tools" },
   { name: "Tasks", to: "tasks" },
-  // { name: "User Info", to: "user-info" },
+  { name: "Account", to: "user-info" },
 ];
 
 export default function Example() {
@@ -24,6 +24,9 @@ export default function Example() {
     console.log("Log out has been clicked");
     dispatch(setAccess({ valueName: "accessToken", data: `` }));
     dispatch(setAccess({ valueName: "refreshToken", data: `` }));
+    dispatch(setAccess({ valueName: "fname", data: "" }));
+    dispatch(setAccess({ valueName: "lname", data: "" }));
+    dispatch(setAccess({ valueName: "email", data: "" }));
 
     const clearTokens = await fetch(
       "https://jwt-auth-webdev-simplified.onrender.com/logout",

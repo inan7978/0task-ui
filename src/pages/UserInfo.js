@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setAccess } from "../redux-stuff/counterSlice";
+import { useNavigate } from "react-router";
 
 function UserInfo() {
   const accessToken = useSelector((state) => state.counter.accessToken);
@@ -8,37 +9,68 @@ function UserInfo() {
   const fname = useSelector((state) => state.counter.fname);
   const lname = useSelector((state) => state.counter.lname);
   const email = useSelector((state) => state.counter.email);
-  const tasks = useSelector((state) => state.counter.tasks);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const infoStyles = "text-white";
+  const inputStyles = "p-3 my-2 w-4/5 rounded font-bold";
+  const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
-  console.log("tasks ", tasks);
+  async function saveChanges() {
+    return 1;
+  }
 
-  // const mappedTasks = tasks;
+  console.log("Access Token: ", accessToken);
+  console.log("Refresh Token: ", refreshToken);
 
-  const mappedTasks = tasks
-    ? tasks.map((task) => {
-        return (
-          <li key={task.description}>
-            <div>
-              <h2>{task.description}</h2>
-              <h2>Completed: {task.completed ? "true" : "false"}</h2>
-            </div>
-          </li>
-        );
-      })
-    : null;
-
-  return (
+  return accessToken !== "" ? (
     <div className="container mx-auto flex flex-col items-center">
-      <h1 className={infoStyles}>Refresh token: {refreshToken.length}</h1>
-      <h1 className={infoStyles}>Access token: {accessToken}</h1>
-      <h1 className={infoStyles}>UserID: {userID}</h1>
-      <h1 className={infoStyles}>First Name: {fname}</h1>
-      <h1 className={infoStyles}>Last Name: {lname}</h1>
-      <h1 className={infoStyles}>Email: {email}</h1>
-      <ul>{mappedTasks}</ul>
+      <h1 className="text-white text-2xl mb-5 font-bold underline">{`${fname}'s account`}</h1>
+      <input type="text" className={inputStyles} placeholder={fname} />
+      <input type="text" className={inputStyles} placeholder={lname} />
+      <input type="email" className={inputStyles} placeholder={email} />
+      <input
+        type="text"
+        className={inputStyles}
+        placeholder="New password..."
+      />
+      <input
+        type="text"
+        className={inputStyles}
+        placeholder="Confirm password..."
+      />
+      <div className="container flex justify-center gap-5">
+        <button
+          onClick={() => {
+            console.log("clicked discard");
+            navigate("../tasks");
+          }}
+          className={btnStyle + " bg-gray-500"}
+        >
+          Back
+        </button>
+        <button
+          onClick={() => {
+            saveChanges();
+          }}
+          className={btnStyle + " bg-green-500"}
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  ) : (
+    <div className="container mx-auto flex flex-col items-center">
+      <h1 className="text-white text-2xl my-5 font-bold">
+        You need to sign in!
+      </h1>
+      <button
+        className={btnStyle + " bg-green-500"}
+        onClick={() => {
+          navigate("../login");
+        }}
+      >
+        Log in here
+      </button>
     </div>
   );
 }
