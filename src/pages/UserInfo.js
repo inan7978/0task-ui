@@ -1,26 +1,45 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setAccess } from "../redux-stuff/counterSlice";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 function UserInfo() {
   const accessToken = useSelector((state) => state.counter.accessToken);
   const refreshToken = useSelector((state) => state.counter.refreshToken);
-  const userID = useSelector((state) => state.counter._id);
-  const fname = useSelector((state) => state.counter.fname);
-  const lname = useSelector((state) => state.counter.lname);
-  const email = useSelector((state) => state.counter.email);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const inputStyles = "p-3 my-2 w-4/5 rounded font-bold";
+  const [fname, setfname] = useState("");
+  const [lname, setlname] = useState("");
+  const [email, setEmail] = useState("");
+
+  const inputStyles = "p-3 my-2 w-4/5 rounded font-bold max-w-sm";
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
-  async function saveChanges() {
-    return 1;
-  }
+  async function saveChanges() {}
 
-  console.log("Access Token: ", accessToken);
-  console.log("Refresh Token: ", refreshToken);
+  useEffect(() => {
+    loadInfo();
+  }, []);
+
+  async function loadInfo() {
+    const userInfo = await fetch(
+      "https://jwt-auth-webdev-simplified.onrender.com/user-info",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const data = await userInfo.json();
+
+    setfname(data[0].fname);
+    setlname(data[0].lname);
+    setEmail(data[0].email);
+  }
 
   return accessToken !== "" ? (
     <div className="container mx-auto flex flex-col items-center">
