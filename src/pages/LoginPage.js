@@ -29,7 +29,7 @@ export default function LoginPage() {
     );
 
     getData(data.accessToken);
-    // navigate("../user-info");
+    navigate("../tasks");
   }
 
   async function getData(token) {
