@@ -37,7 +37,7 @@ function NotesPage() {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ description: "" }),
+        body: JSON.stringify({ description: "New note..." }),
       }
     );
 
@@ -73,7 +73,7 @@ function NotesPage() {
           </button>
         </div>
         <div className="flex flex-col justify-center gap">
-          {notes.length >= 1 ? mappedNotes : null}
+          {notes.length >= 1 ? mappedNotes.reverse() : null}
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@ function Note({ note }) {
           },
         });
       }}
-      className="flex flex-col justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[300px] p-5 mb-5 bg-white rounded overflow-hidden"
+      className="flex flex-col justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[600px] p-5 mb-5 bg-white rounded overflow-hidden"
     >
       <pre style={{ whiteSpace: "pre-wrap" }}>{note.description}</pre>
     </div>

@@ -156,7 +156,7 @@ function TasksPage() {
     : null;
 
   return token !== "" ? (
-    <div className="container mx-auto sm:w-4/5 md:w-1/2 lg:max-w-[1000px]">
+    <div className="container mx-auto sm:w-4/5 md:w-1/2 lg:max-w-[800px]">
       <h1 className="text-white text-center text-3xl my-20">
         Tasks Remaining:{" "}
         {tasks ? tasks.filter((task) => task.completed === false).length : 0}
@@ -179,7 +179,7 @@ function TasksPage() {
       </form>
       <div className="p-2 text-center">
         {tasks.length > 0 ? (
-          mappedTasks
+          mappedTasks.reverse()
         ) : (
           <h1 className="2xl-text font-bold text-white">
             Im sure you can find something to do 😉
