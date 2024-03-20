@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 function NotesPage() {
   const [notes, setNotes] = useState([]);
   const token = useSelector((state) => state.counter.accessToken);
+  const navigate = useNavigate();
+
+  const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
   useEffect(() => {
     getNotes(token);
   }, []);
@@ -55,7 +58,7 @@ function NotesPage() {
       })
     : null;
 
-  return (
+  return token !== "" ? (
     <div>
       <div className="container mx-auto flex flex-col justify-center items-center max-w-screen-xl">
         <div className="flex gap-5 my-10">
@@ -73,6 +76,20 @@ function NotesPage() {
           {notes.length >= 1 ? mappedNotes : null}
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="container mx-auto flex flex-col items-center">
+      <h1 className="text-white text-2xl my-5 font-bold">
+        You need to sign in!
+      </h1>
+      <button
+        className={btnStyle + " bg-green-500"}
+        onClick={() => {
+          navigate("../login");
+        }}
+      >
+        Log in here
+      </button>
     </div>
   );
 }

@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
   const token = useSelector((state) => state.counter.accessToken);
+  const navigate = useNavigate();
+
+  const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
   async function createTask() {
     const response = await fetch(
@@ -151,7 +155,7 @@ function TasksPage() {
       })
     : null;
 
-  return (
+  return token !== "" ? (
     <div className="container mx-auto sm:w-4/5 md:w-1/2 lg:max-w-[1000px]">
       <h1 className="text-white text-center text-3xl my-20">
         Tasks Remaining:{" "}
@@ -182,6 +186,20 @@ function TasksPage() {
           </h1>
         )}
       </div>
+    </div>
+  ) : (
+    <div className="container mx-auto flex flex-col items-center">
+      <h1 className="text-white text-2xl my-5 font-bold">
+        You need to sign in!
+      </h1>
+      <button
+        className={btnStyle + " bg-green-500"}
+        onClick={() => {
+          navigate("../login");
+        }}
+      >
+        Log in here
+      </button>
     </div>
   );
 }
