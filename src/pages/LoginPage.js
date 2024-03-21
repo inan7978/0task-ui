@@ -2,67 +2,27 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
+import { login } from "../api/authAPI";
 
 export default function LoginPage() {
   const user = useSelector((state) => state.counter._id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function login(email, password) {
-    const getTokens = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      }
+  async function loginHandler() {
+    const auth = await login(
+      document.getElementById("email").value,
+      document.getElementById("password").value
     );
 
-    const data = await getTokens.json();
+    console.log("result of login: ", auth);
     dispatch(
-      setAccess({ valueName: "accessToken", data: `${data.accessToken}` })
+      setAccess({ valueName: "accessToken", data: `${auth.accessToken}` })
     );
     dispatch(
-      setAccess({ valueName: "refreshToken", data: `${data.refreshToken}` })
+      setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
     );
-
-    getData(data.accessToken);
-    navigate("../tasks");
-  }
-
-  async function getData(token) {
-    const getData = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/user-records",
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const data = await getData.json();
-    // console.log(data[0].tasks);
-
-    if (getData.ok) {
-      dispatch(setFields({ valueName: "fname", data: `${data[0].fname}` }));
-      dispatch(setFields({ valueName: "lname", data: `${data[0].lname}` }));
-      dispatch(setFields({ valueName: "email", data: `${data[0].email}` }));
-      dispatch(setFields({ valueName: "_id", data: `${data[0]._id}` }));
-      dispatch(
-        setFields({
-          valueName: "tasks",
-          data: data[0].tasks,
-        })
-      );
-
-      navigate("../tasks");
-    } else {
-      alert("An error occured!");
-    }
+    navigate("./tasks");
   }
 
   return (
@@ -84,10 +44,7 @@ export default function LoginPage() {
             className="space-y-6"
             onSubmit={(e) => {
               e.preventDefault();
-              login(
-                document.getElementById("email").value,
-                document.getElementById("password").value
-              );
+              loginHandler();
             }}
           >
             <div>
