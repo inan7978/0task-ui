@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { UseSelector, useSelector } from "react-redux";
+import { _saveChanges, _deleteNote } from "../api/noteAPI";
 
 function EditNotePage() {
   const { state } = useLocation();
@@ -11,25 +12,7 @@ function EditNotePage() {
 
   async function saveChanges() {
     const updated = document.getElementById("edit-note").value;
-    // console.log(updated);
-
-    const updateNote = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/edit-note",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          noteId: _id,
-          newValue: updated,
-        }),
-      }
-    );
-
-    const data = await updateNote.json();
-
+    const data = await _saveChanges(token, updated, _id);
     if (data.status === -1) {
       alert("Something went wrong");
     } else {
@@ -39,20 +22,7 @@ function EditNotePage() {
   }
 
   async function deleteNote() {
-    const deleteNote = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/delete-note",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ toDelete: _id }),
-      }
-    );
-
-    const result = await deleteNote.json();
-
+    const result = await _deleteNote(token, _id);
     console.log(result.status);
 
     navigate("../notes");
