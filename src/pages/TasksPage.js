@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { _createTask, _deleteTask } from "../api/taskAPI";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -10,22 +11,10 @@ function TasksPage() {
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
   async function createTask() {
-    const response = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/new-task",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          description: document.getElementById("new-task").value,
-        }),
-      }
+    const data = await _createTask(
+      token,
+      document.getElementById("new-task").value
     );
-
-    const data = await response.json();
-
     if (data.status === -1) {
       console("A server error has occured. The new task was not added.");
       getTasks(token);
@@ -38,21 +27,7 @@ function TasksPage() {
 
   async function deleteTask(toDelete) {
     console.log("Request to delete: ", toDelete);
-    const response = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/delete-task",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          toDelete: toDelete,
-        }),
-      }
-    );
-
-    const data = await response.json();
+    const data = await _deleteTask(token, toDelete);
 
     if (data.status === -1) {
       console("A server error has occured. The new task was not deleted.");
