@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { _createTask, _deleteTask } from "../api/taskAPI";
+import {
+  _createTask,
+  _deleteTask,
+  _completeTask,
+  _uncompleteTask,
+  _getTasks,
+} from "../api/taskAPI";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -40,21 +46,7 @@ function TasksPage() {
 
   async function completeTask(toComplete) {
     console.log("Requesting to mark as completed: ", toComplete);
-    const response = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/toggle-done",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          toComplete: toComplete,
-        }),
-      }
-    );
-
-    const data = await response.json();
+    const data = await _completeTask(toComplete, token);
 
     if (data.status === -1) {
       console.log(
@@ -68,21 +60,7 @@ function TasksPage() {
   }
   async function uncompleteTask(toUncomplete) {
     console.log("Requesting to mark as uncompleted: ", toUncomplete);
-    const response = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/toggle-not-done",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          toUncomplete: toUncomplete,
-        }),
-      }
-    );
-
-    const data = await response.json();
+    const data = await _uncompleteTask(toUncomplete, token);
 
     if (data.status === -1) {
       console.log(
@@ -96,18 +74,8 @@ function TasksPage() {
   }
 
   async function getTasks(token) {
-    const tasks = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/get-tasks",
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const data = await _getTasks(token);
 
-    const data = await tasks.json();
     console.log("Tasks", JSON.stringify(data.tasks));
     setTasks(data.tasks);
   }

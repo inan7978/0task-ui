@@ -22,7 +22,7 @@ export default function LoginPage() {
     dispatch(
       setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
     );
-    navigate("./tasks");
+    navigate("../tasks");
   }
 
   return (

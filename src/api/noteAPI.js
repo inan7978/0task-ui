@@ -57,3 +57,17 @@ export async function _deleteNote(token, _id) {
   const data = await result.json();
   return data;
 }
+
+export async function _completeTask(toComplete, token) {
+  const result = await fetch(`${BASE_URL}/toggle-done`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ toComplete: toComplete }),
+  });
+
+  const data = await result.json();
+  return data;
+}
