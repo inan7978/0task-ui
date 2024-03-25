@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { _getNotes, _newNote } from "../api/noteAPI";
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
@@ -11,37 +12,16 @@ function NotesPage() {
   useEffect(() => {
     getNotes(token);
   }, []);
-  async function getNotes(token) {
-    const notes = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/get-notes",
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
 
-    const data = await notes.json();
-    // console.log("Notes: ", JSON.stringify(data.notes));
-    setNotes(data.notes);
+  async function getNotes(token) {
+    const result = await _getNotes(token);
+    console.log("notes :", result.notes);
+    setNotes(result.notes);
   }
 
   async function newNote(token) {
-    const addNote = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/new-note",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ description: "New note..." }),
-      }
-    );
-
-    const data = await addNote.json();
+    console.log("Requested a new note.");
+    const data = await _newNote(token);
 
     if (data.status === -1) {
       console.log("A server error has occured. The new note was not created.");
