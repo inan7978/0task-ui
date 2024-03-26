@@ -89,9 +89,11 @@ function Note({ note }) {
           },
         });
       }}
-      className="flex flex-col justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[600px] p-5 mb-5 bg-white rounded overflow-hidden"
+      className="flex flex-col bg-orange-100 justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[600px] p-5 mb-5 bg-white rounded overflow-hidden"
     >
-      <pre style={{ whiteSpace: "pre-wrap" }}>{note.description}</pre>
+      <pre style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>
+        {note.description}
+      </pre>
     </div>
   );
 }
