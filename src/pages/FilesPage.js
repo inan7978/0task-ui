@@ -29,17 +29,22 @@ function FilesPage() {
   }
   return (
     <div>
-      <h1>Files Upload</h1>
       <form onSubmit={uploadFile}>
-        <input
-          type="file"
-          name="myFiles"
-          onChange={(e) => {
-            setFiles(e.target.files);
-          }}
-          multiple
-        />
-        <button type="submit">Submit</button>
+        <div className="container flex justify-center items-center flex-col mx-auto">
+          <h1 className="text-white">Files Upload</h1>
+          <input
+            type="file"
+            className="text-white"
+            name="myFiles"
+            onChange={(e) => {
+              setFiles(e.target.files);
+            }}
+            multiple
+          />
+          <button type="submit" className="p-2 bg-red-500">
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
