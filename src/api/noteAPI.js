@@ -4,7 +4,7 @@ export async function _getNotes(token) {
   const result = await fetch(`${BASE_URL}/get-notes`, {
     method: "GET",
     headers: {
-      "Content-type": "application/json",
+      "Content-type": "application/json", // is this part really needed?
       Authorization: `Bearer ${token}`,
     },
   });

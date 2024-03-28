@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { UseSelector, useSelector } from "react-redux";
 
 function FilesPage() {
   const [files, setFiles] = useState();
+  const token = useSelector((state) => state.counter.accessToken);
 
   // should try to do this functionality without using state
 
-  async function uploadFile(e) {
-    e.preventDefault();
+  async function uploadFile(token) {
     console.log("Form to add files has been submitted");
     const formData = new FormData();
 
@@ -18,8 +19,8 @@ function FilesPage() {
 
     const response = await fetch("http://localhost:3001/add-file", {
       method: "POST",
-      header: {
-        "content-type": "multipart/form-data",
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
       body: formData,
     });
@@ -29,7 +30,12 @@ function FilesPage() {
   }
   return (
     <div>
-      <form onSubmit={uploadFile}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          uploadFile(token);
+        }}
+      >
         <div className="container flex justify-center items-center flex-col mx-auto">
           <h1 className="text-white">Files Upload</h1>
           <input
