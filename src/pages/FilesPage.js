@@ -8,6 +8,7 @@ function FilesPage() {
 
   // should try to do this functionality without using state
   console.log("userId in uploadFile function: ", user);
+  console.log("Token: ", token);
 
   async function uploadFile(token, user) {
     console.log("Form to add files has been submitted");
