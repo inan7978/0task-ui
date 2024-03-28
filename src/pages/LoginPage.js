@@ -5,7 +5,6 @@ import { setAccess, setFields } from "../redux-stuff/counterSlice";
 import { _login } from "../api/authAPI";
 
 export default function LoginPage() {
-  const user = useSelector((state) => state.counter._id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,6 +21,7 @@ export default function LoginPage() {
     dispatch(
       setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
     );
+    dispatch(setFields({ valueName: "_id", data: `${auth.userId}` }));
     navigate("../tasks");
   }
 

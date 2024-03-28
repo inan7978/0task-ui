@@ -1,19 +1,22 @@
 import { useState } from "react";
-import { UseSelector, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function FilesPage() {
   const [files, setFiles] = useState();
   const token = useSelector((state) => state.counter.accessToken);
+  const user = useSelector((state) => state.counter._id);
 
   // should try to do this functionality without using state
+  console.log("userId in uploadFile function: ", user);
 
-  async function uploadFile(token) {
+  async function uploadFile(token, user) {
     console.log("Form to add files has been submitted");
     const formData = new FormData();
 
     Object.keys(files).forEach((key) => {
       formData.append(files.item(key).name, files.item(key));
     });
+    formData.append("user", user);
 
     console.log("FormData: ", formData);
 
@@ -33,7 +36,7 @@ function FilesPage() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          uploadFile(token);
+          uploadFile(token, user);
         }}
       >
         <div className="container flex justify-center items-center flex-col mx-auto">
