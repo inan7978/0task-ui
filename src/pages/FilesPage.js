@@ -42,11 +42,11 @@ function FilesPage() {
 
         return (
           <div
-            className="flex p-5 my-2 bg-orange-200 w-96 justify-center rounded"
+            className="flex p-5 my-2 bg-orange-200 w-11/12 max-w-md gap-2 justify-center rounded"
             key={file.Key}
           >
-            <div className="w-4/5">
-              <h1 className="font-bold">{newName}</h1>
+            <div className="w-4/5 overflow-hidden">
+              <h1 className="font-medium">{newName}</h1>
             </div>
             <div className="w-1/5">
               <a
