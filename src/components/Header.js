@@ -11,6 +11,7 @@ const navigation = [
   { name: "Tools", to: "tools" },
   { name: "Tasks", to: "tasks" },
   { name: "Account", to: "user-info" },
+  { name: "Files", to: "files" },
 ];
 
 export default function Example() {
