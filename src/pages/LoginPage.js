@@ -15,14 +15,18 @@ export default function LoginPage() {
     );
 
     console.log("result of login: ", auth);
-    dispatch(
-      setAccess({ valueName: "accessToken", data: `${auth.accessToken}` })
-    );
-    dispatch(
-      setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
-    );
-    dispatch(setFields({ valueName: "_id", data: `${auth.userId}` }));
-    navigate("../tasks");
+    if (auth.status === "An issue occured.") {
+      alert("Incorrect password.");
+    } else {
+      dispatch(
+        setAccess({ valueName: "accessToken", data: `${auth.accessToken}` })
+      );
+      dispatch(
+        setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
+      );
+      dispatch(setFields({ valueName: "_id", data: `${auth.userId}` }));
+      navigate("../tasks");
+    }
   }
 
   return (
