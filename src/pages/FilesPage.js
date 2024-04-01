@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { _getFiles, _uploadFile } from "../api/filesAPI";
+import cross from "../img/cross.svg";
 
 function FilesPage() {
   const [files, setFiles] = useState();
@@ -55,6 +56,7 @@ function FilesPage() {
               >
                 Download
               </a>
+              <img src={cross} alt="My Happy SVG" />{" "}
             </div>
           </div>
         );
