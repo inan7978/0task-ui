@@ -48,6 +48,7 @@ function FilesPage() {
           >
             <div className="w-4/5 overflow-hidden">
               <h1 className="font-medium">{newName}</h1>
+              <p>{file.Key}</p>
             </div>
             <div className="w-1/5">
               <a
