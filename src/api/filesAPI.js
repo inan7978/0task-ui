@@ -24,3 +24,33 @@ export async function _getFiles(token, user) {
   const data = await result.json();
   return data;
 }
+
+export async function _deleteFile(token, key) {
+  console.log("Key to delete: ", key);
+  const result = await fetch(`${BASE_URL}/delete-file`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ deleteKey: key }),
+  });
+
+  const data = await result.json();
+  return data;
+}
+
+export async function _downloadFile(token, key) {
+  console.log("Requested file: ", key);
+  const result = await fetch(`${BASE_URL}/download-file`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ toDownload: key }),
+  });
+
+  const data = await result.json();
+  return data;
+}
