@@ -30,12 +30,16 @@ function FilesPage() {
 
   async function uploadFile(token, user) {
     setLoading(true);
+    // console.log("files to add to formData: ", files);
     const formData = new FormData();
     Object.keys(files).forEach((key) => {
       formData.append(files.item(key).name, files.item(key));
     });
     formData.append("user", user);
+    console.log(...formData);
+
     const data = await _uploadFile(token, formData);
+
     console.log(data.message);
     setLoading(false);
   }
