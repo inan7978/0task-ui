@@ -25,3 +25,19 @@ export async function _register(email, pass) {
   const data = await register.json();
   return data;
 }
+
+export async function _clearTokens(token, refreshToken) {
+  const result = await fetch(`${BASE_URL}/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refreshToken: refreshToken,
+      accessToken: token,
+    }),
+  });
+
+  const data = await result.json();
+  return data;
+}

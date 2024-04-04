@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
+import { _clearTokens } from "../api/authAPI";
 
 // simply add the name and the path
 const navigation = [
@@ -29,21 +30,7 @@ export default function Example() {
     dispatch(setAccess({ valueName: "lname", data: "" }));
     dispatch(setAccess({ valueName: "email", data: "" }));
 
-    const clearTokens = await fetch(
-      "https://jwt-auth-webdev-simplified.onrender.com/logout",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refreshToken: refreshToken,
-          accessToken: token,
-        }),
-      }
-    );
-
-    const data = await clearTokens.json();
+    const data = await _clearTokens(token, refreshToken);
 
     console.log(data.status);
   }
