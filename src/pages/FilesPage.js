@@ -7,6 +7,60 @@ import {
   _downloadFile,
 } from "../api/filesAPI";
 import cross from "../img/cross.svg";
+import download from "../img/download.svg";
+
+function FileBlock({ file, deleteFile, downloadFile, token }) {
+  let temp = file.Key;
+  let splitTemp = temp.split("/");
+  let newName = splitTemp[splitTemp.length - 1];
+
+  const size = file.Size;
+  let stringSize = "";
+  if (size > 1000000000) {
+    stringSize = `${(Math.round((size / 1000000000) * 100) / 100).toFixed(
+      2
+    )} Gb`;
+  } else if (size > 1000000) {
+    stringSize = `${(Math.round((size / 1000000) * 100) / 100).toFixed(2)} Mb`;
+  } else if (size > 1000) {
+    stringSize = `${(Math.round((size / 1000) * 100) / 100).toFixed(2)} Kb`;
+  } else {
+    stringSize = `${(Math.round(size * 100) / 100).toFixed(2)} Bytes`;
+  }
+
+  const btnStyles = "w-1/2 h-20 p-5 cursor-pointer rounded";
+  return (
+    <div
+      className="flex p-3 h-100 my-2 bg-zinc-100 w-11/12 max-w-md gap-2 justify-center rounded"
+      key={file.Key}
+    >
+      <div className="w-3/5 container flex flex-col justify-center break-words">
+        <h1 className="text-lg font-bold">{newName}</h1>
+        <h1 className="text-sm">{stringSize}</h1>
+      </div>
+      <div className="w-36 flex gap-1">
+        <img
+          className={btnStyles + " bg-red-200"}
+          src={cross}
+          onClick={(e) => {
+            e.preventDefault();
+            deleteFile(token, file.Key);
+          }}
+          alt="delete-file-button"
+        />
+        <img
+          className={btnStyles + " bg-blue-200"}
+          onClick={(e) => {
+            e.preventDefault();
+            downloadFile(token, file.Key);
+          }}
+          src={download}
+          alt="delete-file-button"
+        />
+      </div>
+    </div>
+  );
+}
 
 function FilesPage() {
   const [files, setFiles] = useState();
@@ -70,40 +124,13 @@ function FilesPage() {
 
   const mappedFiles = list
     ? list.map((file) => {
-        let temp = file.Key;
-        let splitTemp = temp.split("/");
-        let newName = splitTemp[splitTemp.length - 1];
-
         return (
-          <div
-            className="flex p-5 my-2 bg-orange-200 w-11/12 max-w-md gap-2 justify-center rounded"
-            key={file.Key}
-          >
-            <div className="w-4/5 overflow-hidden">
-              <h1 className="font-medium">{newName}</h1>
-              <p>{file.Key}</p>
-            </div>
-            <div className="w-1/5">
-              <a
-                className="text-blue-500 underline"
-                // href={`https://0task-bucket.s3.amazonaws.com/${file.Key}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  downloadFile(token, file.Key);
-                }}
-              >
-                Download
-              </a>
-              <img
-                src={cross}
-                onClick={(e) => {
-                  e.preventDefault();
-                  deleteFile(token, file.Key);
-                }}
-                alt="delete-file-button"
-              />{" "}
-            </div>
-          </div>
+          <FileBlock
+            file={file}
+            downloadFile={downloadFile}
+            deleteFile={deleteFile}
+            token={token}
+          />
         );
       })
     : null;
