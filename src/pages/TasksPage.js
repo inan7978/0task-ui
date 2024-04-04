@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import garbage from "../img/garbage.svg";
+import garbageWhite from "../img/garbageWhite.svg";
 import {
   _createTask,
   _deleteTask,
@@ -84,9 +86,22 @@ function TasksPage() {
     getTasks(token);
   }, []);
 
+  const mappedTasksDone = tasks
+    ? tasks.map((task) => {
+        return task.completed ? (
+          <Task
+            key={task._id}
+            task={task}
+            deleteTask={deleteTask}
+            completeTask={completeTask}
+            uncompleteTask={uncompleteTask}
+          />
+        ) : null;
+      })
+    : null;
   const mappedTasks = tasks
     ? tasks.map((task) => {
-        return (
+        return task.completed ? null : (
           <Task
             key={task._id}
             task={task}
@@ -120,14 +135,19 @@ function TasksPage() {
           </button>
         </div>
       </form>
-      <div className="p-2 text-center">
-        {tasks.length > 0 ? (
+      <div className="px-2 text-center">
+        {tasks.length > 0 ? ( // not completed
           mappedTasks.reverse()
         ) : (
           <h1 className="2xl-text font-bold text-white">
             Im sure you can find something to do 😉
           </h1>
         )}
+      </div>
+      <div className="px-2 text-center">
+        {tasks.length > 0 //completed
+          ? mappedTasksDone.reverse()
+          : null}
       </div>
     </div>
   ) : (
@@ -148,8 +168,28 @@ function TasksPage() {
 }
 
 function Task({ task, deleteTask, uncompleteTask, completeTask }) {
-  return (
-    <div className="container mx-auto flex gap-5 items-center justify-between bg-red-800 rounded my-5 p-2">
+  return task.completed ? (
+    <div className="container mx-auto flex gap-5 justify-between bg-gray-800 rounded my-5 p-2">
+      <input
+        className="h-7 w-7 bg-gray-500 text-gray-800"
+        type="checkbox"
+        defaultChecked={task.completed}
+        onChange={() => {
+          task.completed ? uncompleteTask(task._id) : completeTask(task._id);
+        }}
+      />
+      <h1 className="text-white text-xl">{task.description}</h1>
+      <img
+        onClick={() => {
+          deleteTask(task._id);
+        }}
+        src={garbage}
+        className="w-5 h-5 cursor-pointer"
+        x
+      />
+    </div>
+  ) : (
+    <div className="container mx-auto flex gap-5 justify-between bg-blue-700 rounded my-5 p-2">
       <input
         className="h-7 w-7"
         type="checkbox"
@@ -159,13 +199,14 @@ function Task({ task, deleteTask, uncompleteTask, completeTask }) {
         }}
       />
       <h1 className="text-white text-xl">{task.description}</h1>
-      <button
+      <img
         onClick={() => {
           deleteTask(task._id);
         }}
-      >
-        X
-      </button>
+        src={garbageWhite}
+        className="w-5 h-5 cursor-pointer"
+        x
+      />
     </div>
   );
 }
