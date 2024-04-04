@@ -144,23 +144,28 @@ function FilesPage() {
         }}
       >
         <div className="container flex justify-center items-center flex-col mx-auto">
-          <h1 className="text-white">Files Upload</h1>
+          <h1 className="text-white my-5 font-medium">
+            Upload and view your files here 👇
+          </h1>
           <input
             type="file"
-            className="text-white"
+            className="block w-full max-w-[500px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             name="myFiles"
             onChange={(e) => {
               setFiles(e.target.files);
             }}
             multiple
           />
-          <button type="submit" className="p-2 bg-red-500">
-            Submit
+          <button
+            type="submit"
+            className="p-2 my-5 bg-green-500 text-white rounded w-36 font-bold"
+          >
+            Upload
           </button>
         </div>
       </form>
       <div className="container mx-auto flex flex-col items-center my-5">
-        {loading && <h1>Uploading...</h1>}
+        {loading && <h1 className="text-white font-bold">Uploading...⏳</h1>}
         {mappedFiles}
       </div>
     </div>
