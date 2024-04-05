@@ -111,6 +111,7 @@ function TasksPage() {
             deleteTask={deleteTask}
             completeTask={completeTask}
             uncompleteTask={uncompleteTask}
+            editTask={editTask}
           />
         ) : null;
       })
@@ -200,11 +201,7 @@ function Task({ task, deleteTask, uncompleteTask, completeTask, editTask }) {
           task.completed ? uncompleteTask(task._id) : completeTask(task._id);
         }}
       />
-      <div
-        onClick={() => {
-          setEditing(true);
-        }}
-      >
+      <div>
         {editing ? (
           <textarea
             onBlur={() => {
