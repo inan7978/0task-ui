@@ -143,7 +143,7 @@ function FilesPage() {
           uploadFile(token, user);
         }}
       >
-        <div className="container flex justify-center items-center flex-col mx-auto">
+        <div className="container flex px-2 justify-center items-center flex-col mx-auto">
           <h1 className="text-white my-5 font-medium">
             Upload and view your files here 👇
           </h1>

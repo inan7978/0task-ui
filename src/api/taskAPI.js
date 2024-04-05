@@ -44,6 +44,12 @@ export async function _deleteTask(token, toDelete) {
   return data;
 }
 
+export async function _editTask(toEdit, newVal) {
+  console.log("Task to edit: ", toEdit);
+  console.log("New task value: ", newVal);
+  return 0;
+}
+
 export async function _completeTask(toComplete, token) {
   const result = await fetch(`${BASE_URL}/toggle-done`, {
     method: "POST",

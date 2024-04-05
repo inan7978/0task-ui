@@ -9,6 +9,7 @@ import {
   _completeTask,
   _uncompleteTask,
   _getTasks,
+  _editTask,
 } from "../api/taskAPI";
 
 function TasksPage() {
@@ -75,6 +76,21 @@ function TasksPage() {
     }
   }
 
+  async function editTask(toEdit, newVal) {
+    console.log("Editting note: ", toEdit);
+    const data = await _editTask(toEdit, newVal);
+
+    if (data.status === -1) {
+      console.log(
+        "A server error has occured. The new task was not marked as needing completion."
+      );
+      getTasks(token);
+    } else {
+      getTasks(token);
+      console.log(data);
+    }
+  }
+
   async function getTasks(token) {
     const data = await _getTasks(token);
 
@@ -108,6 +124,7 @@ function TasksPage() {
             deleteTask={deleteTask}
             completeTask={completeTask}
             uncompleteTask={uncompleteTask}
+            editTask={editTask}
           />
         );
       })
@@ -167,7 +184,12 @@ function TasksPage() {
   );
 }
 
-function Task({ task, deleteTask, uncompleteTask, completeTask }) {
+function Task({ task, deleteTask, uncompleteTask, completeTask, editTask }) {
+  const [editing, setEditing] = useState(false);
+  const [newVal, setNewVal] = useState("");
+
+  const textAreaStyle =
+    "resize-none w-[250px] md:w-[300px] lg:w-[450px] xl:w-[500px] max-w-[500px] border-none h-36";
   return task.completed ? (
     <div className="container mx-auto flex gap-5 justify-between bg-gray-800 rounded my-5 p-2">
       <input
@@ -178,7 +200,36 @@ function Task({ task, deleteTask, uncompleteTask, completeTask }) {
           task.completed ? uncompleteTask(task._id) : completeTask(task._id);
         }}
       />
-      <h1 className="text-white text-xl">{task.description}</h1>
+      <div
+        onClick={() => {
+          setEditing(true);
+        }}
+      >
+        {editing ? (
+          <textarea
+            onBlur={() => {
+              editTask(task._id, newVal);
+              setEditing(false);
+            }}
+            defaultValue={task.description}
+            className={textAreaStyle}
+            onChange={(e) => {
+              setNewVal(e.target.value);
+            }}
+            autoFocus
+          />
+        ) : (
+          <h1
+            onClick={() => {
+              setEditing(true);
+            }}
+            className="text-white text-xl"
+          >
+            {task.description}
+          </h1>
+        )}
+      </div>
+
       <img
         onClick={() => {
           deleteTask(task._id);
@@ -198,7 +249,31 @@ function Task({ task, deleteTask, uncompleteTask, completeTask }) {
           task.completed ? uncompleteTask(task._id) : completeTask(task._id);
         }}
       />
-      <h1 className="text-white text-xl">{task.description}</h1>
+      <div>
+        {editing ? (
+          <textarea
+            onBlur={() => {
+              editTask(task._id, newVal);
+              setEditing(false);
+            }}
+            defaultValue={task.description}
+            className={textAreaStyle}
+            onChange={(e) => {
+              setNewVal(e.target.value);
+            }}
+            autoFocus
+          />
+        ) : (
+          <h1
+            onClick={() => {
+              setEditing(true);
+            }}
+            className="text-white text-xl"
+          >
+            {task.description}
+          </h1>
+        )}
+      </div>
       <img
         onClick={() => {
           deleteTask(task._id);
