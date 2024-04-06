@@ -14,11 +14,14 @@ export async function _uploadFile(token, formData) {
 }
 
 export async function _getFiles(token, user) {
+  console.log("User on front end: ", user);
   const result = await fetch(`${BASE_URL}/user-files`, {
-    method: "GET",
+    method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify({ user: user }),
   });
 
   const data = await result.json();

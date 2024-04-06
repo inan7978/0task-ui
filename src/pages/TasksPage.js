@@ -77,13 +77,11 @@ function TasksPage() {
   }
 
   async function editTask(toEdit, newVal) {
-    console.log("Editting note: ", toEdit);
-    const data = await _editTask(toEdit, newVal);
+    console.log("Editting task: ", toEdit);
+    const data = await _editTask(toEdit, newVal, token);
 
     if (data.status === -1) {
-      console.log(
-        "A server error has occured. The new task was not marked as needing completion."
-      );
+      console.log("A server error has occured. The task was not modified.");
       getTasks(token);
     } else {
       getTasks(token);
@@ -218,6 +216,7 @@ function Task({ task, deleteTask, uncompleteTask, completeTask, editTask }) {
         ) : (
           <h1
             onClick={() => {
+              setNewVal(task.description);
               setEditing(true);
             }}
             className="text-white text-xl"
@@ -263,6 +262,7 @@ function Task({ task, deleteTask, uncompleteTask, completeTask, editTask }) {
         ) : (
           <h1
             onClick={() => {
+              setNewVal(task.description);
               setEditing(true);
             }}
             className="text-white text-xl"

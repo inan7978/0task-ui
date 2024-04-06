@@ -44,7 +44,17 @@ export async function _deleteTask(token, toDelete) {
   return data;
 }
 
-export async function _editTask(toEdit, newVal) {
+export async function _editTask(toEdit, newVal, token) {
+  const result = await fetch(`${BASE_URL}/edit-task`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ toEdit: toEdit, newVal: newVal }),
+  });
+
+  const data = await result.json();
   console.log("Task to edit: ", toEdit);
   console.log("New task value: ", newVal);
   return 0;
