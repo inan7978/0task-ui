@@ -188,7 +188,7 @@ function Task({ task, deleteTask, uncompleteTask, completeTask, editTask }) {
   const [newVal, setNewVal] = useState("");
 
   const textAreaStyle =
-    "resize-none w-[250px] md:w-[300px] lg:w-[450px] xl:w-[500px] max-w-[500px] border-none h-36";
+    "resize-none w-[250px] md:w-[300px] lg:w-[450px] xl:w-[500px] max-w-[500px] border-none h-36 border-none rounded bg-blue-200 font-medium";
   return task.completed ? (
     <div className="container mx-auto flex gap-5 justify-between bg-gray-800 rounded my-5 p-2">
       <input

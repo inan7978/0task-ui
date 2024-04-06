@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
 import { _clearTokens } from "../api/authAPI";
+import logo from "../img/logo_0task.svg";
 
 // simply add the name and the path
 const navigation = [
@@ -15,7 +16,7 @@ const navigation = [
   { name: "Files", to: "files" },
 ];
 
-export default function Example() {
+export default function Header() {
   const token = useSelector((state) => state.counter.accessToken);
   const refreshToken = useSelector((state) => state.counter.refreshToken);
   const navigate = useNavigate();
@@ -44,11 +45,7 @@ export default function Example() {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt=""
-            />
+            <img className="h-8 w-auto" src={logo} alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">

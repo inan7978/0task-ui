@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
 import { _login } from "../api/authAPI";
+import logo from "../img/logo_0task.svg";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -33,11 +34,7 @@ export default function LoginPage() {
     <div className="bg-gray-900">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-            alt="Your Company"
-          />
+          <img className="mx-auto h-24 w-auto" src={logo} alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
             Sign in to your account
           </h2>
