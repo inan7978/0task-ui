@@ -5,6 +5,7 @@ import { _getNotes, _newNote } from "../api/noteAPI";
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
+  const [search, setSearch] = useState();
   const token = useSelector((state) => state.counter.accessToken);
   const navigate = useNavigate();
 
@@ -12,6 +13,15 @@ function NotesPage() {
   useEffect(() => {
     getNotes(token);
   }, []);
+
+  useEffect(() => {
+    searchNotes(search);
+  }, [search]);
+
+  function searchNotes(searchParam) {
+    const subArr = notes.filter((str) => str.description.includes(searchParam));
+    console.log(subArr);
+  }
 
   async function getNotes(token) {
     const result = await _getNotes(token);
@@ -42,7 +52,13 @@ function NotesPage() {
     <div>
       <div className="container mx-auto flex flex-col justify-center items-center max-w-screen-xl">
         <div className="flex gap-5 my-10">
-          <input placeholder="Search notes..." className="rounded" />
+          <input
+            placeholder="Search notes..."
+            className="rounded"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
           <button
             onClick={() => {
               newNote(token);
