@@ -5,6 +5,7 @@ import { _getNotes, _newNote } from "../api/noteAPI";
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
+  const [searched, setSearched] = useState([]);
   const [search, setSearch] = useState();
   const token = useSelector((state) => state.counter.accessToken);
   const navigate = useNavigate();
@@ -19,14 +20,17 @@ function NotesPage() {
   }, [search]);
 
   function searchNotes(searchParam) {
-    const subArr = notes.filter((str) => str.description.includes(searchParam));
-    console.log(subArr);
+    const subArr = notes.filter((str) =>
+      str.description.toLowerCase().includes(searchParam)
+    );
+    setSearched(subArr);
   }
 
   async function getNotes(token) {
     const result = await _getNotes(token);
     console.log("notes :", result.notes);
     setNotes(result.notes);
+    setSearched(result.notes); // so it can initially render them all
   }
 
   async function newNote(token) {
@@ -42,8 +46,8 @@ function NotesPage() {
     }
   }
 
-  const mappedNotes = notes
-    ? notes.map((note) => {
+  const mappedNotes = searched
+    ? searched.map((note) => {
         return <Note note={note} key={note._id} />;
       })
     : null;
@@ -105,7 +109,7 @@ function Note({ note }) {
           },
         });
       }}
-      className="flex flex-col bg-orange-100 justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[600px] p-5 mb-5 bg-white rounded overflow-hidden"
+      className="flex flex-col bg-orange-200 justify-start max-w-[95vw] max-h-48 min-w-36 sm:max-w-[600px] p-5 mb-5 bg-white rounded overflow-hidden"
     >
       <pre style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>
         {note.description}
