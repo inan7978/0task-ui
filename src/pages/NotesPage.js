@@ -21,7 +21,7 @@ function NotesPage() {
 
   function searchNotes(searchParam) {
     const subArr = notes.filter((str) =>
-      str.description.toLowerCase().includes(searchParam)
+      str.description.toLowerCase().includes(searchParam.toLowerCase())
     );
     setSearched(subArr);
   }
