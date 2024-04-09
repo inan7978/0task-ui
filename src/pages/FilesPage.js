@@ -83,19 +83,24 @@ function FilesPage() {
   }
 
   async function uploadFile(token, user) {
-    setLoading(true);
-    // console.log("files to add to formData: ", files);
-    const formData = new FormData();
-    Object.keys(files).forEach((key) => {
-      formData.append(files.item(key).name, files.item(key));
-    });
-    formData.append("user", user);
-    console.log(...formData);
+    if (files) {
+      setLoading(true);
+      // console.log("files to add to formData: ", files);
+      const formData = new FormData();
+      Object.keys(files).forEach((key) => {
+        formData.append(files.item(key).name, files.item(key));
+      });
+      formData.append("user", user);
+      console.log(...formData);
 
-    const data = await _uploadFile(token, formData);
+      const data = await _uploadFile(token, formData);
 
-    console.log(data.message);
-    setLoading(false);
+      console.log(data.message);
+      setLoading(false);
+    } else {
+      console.log("No files selected.");
+      alert("Please select file(s) to upload.");
+    }
   }
 
   async function deleteFile(token, key) {

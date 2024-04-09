@@ -10,10 +10,10 @@ import logo from "../img/logo_0task.svg";
 // simply add the name and the path
 const navigation = [
   { name: "Notes", to: "notes" },
-  { name: "Tools", to: "tools" },
+  // { name: "Tools", to: "tools" },
   { name: "Tasks", to: "tasks" },
-  { name: "Account", to: "user-info" },
   { name: "Files", to: "files" },
+  { name: "Account", to: "user-info" },
 ];
 
 export default function Header() {
