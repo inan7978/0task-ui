@@ -13,9 +13,9 @@ export default function RegisterPage() {
 
   async function loginHandler() {
     // code to create the user
-    console.log("email: ", email);
-    console.log("pass: ", pass);
-    console.log("con-pass: ", con);
+    // console.log("email: ", email);
+    // console.log("pass: ", pass);
+    // console.log("con-pass: ", con);
 
     if (pass !== con) {
       alert("Passwords do not match!");

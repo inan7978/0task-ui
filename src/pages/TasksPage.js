@@ -39,7 +39,7 @@ function TasksPage() {
     const data = await _deleteTask(token, toDelete);
 
     if (data.status === -1) {
-      console("A server error has occured. The new task was not deleted.");
+      console.log("A server error has occured. The new task was not deleted.");
       getTasks(token);
     } else {
       getTasks(token);

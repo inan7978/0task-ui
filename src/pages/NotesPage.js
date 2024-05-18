@@ -28,7 +28,7 @@ function NotesPage() {
 
   async function getNotes(token) {
     const result = await _getNotes(token);
-    console.log("notes :", result.notes);
+    // console.log("notes :", result.notes);
     setNotes(result.notes);
     setSearched(result.notes); // so it can initially render them all
   }
