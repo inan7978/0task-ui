@@ -8,7 +8,7 @@ function NotesPage() {
   const [notes, setNotes] = useState([]);
   const [searched, setSearched] = useState([]);
   const [search, setSearch] = useState();
-  const token = Cookies.get("token");
+  const token = Cookies.get("user-0task");
   const navigate = useNavigate();
 
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
@@ -53,7 +53,7 @@ function NotesPage() {
       })
     : null;
 
-  return token !== "" ? (
+  return token !== undefined ? (
     <div>
       <div className="container mx-auto flex flex-col justify-center items-center max-w-screen-xl">
         <div className="flex gap-5 my-10">

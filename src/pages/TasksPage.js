@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
-  const token = Cookies.get("token");
+  const token = Cookies.get("user-0task");
   const navigate = useNavigate();
 
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
@@ -131,7 +131,7 @@ function TasksPage() {
       })
     : null;
 
-  return token !== "" ? (
+  return token !== undefined ? (
     <div className="container mx-auto sm:w-4/5 md:w-1/2 lg:max-w-[800px]">
       <h1 className="text-white text-center text-3xl my-20">
         Tasks Remaining:{" "}

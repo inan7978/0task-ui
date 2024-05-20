@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
 import { _login } from "../api/authAPI";
-import logo from "../img/logo_0task.svg";
+import logo from "../img/0task-logo.svg";
 import Cookies from "js-cookie";
 
 export default function LoginPage() {
@@ -23,7 +23,7 @@ export default function LoginPage() {
       // dispatch(
       //   setAccess({ valueName: "accessToken", data: `${auth.accessToken}` })
       // );
-      Cookies.set("token", auth.accessToken, { expires: 60, secure: true });
+      Cookies.set("user-0task", auth.accessToken, { expires: 1, secure: true });
       // dispatch(
       //   setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
       // );

@@ -3,16 +3,16 @@ import { setAccess } from "../redux-stuff/counterSlice";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { _loadInfo, _updateUser } from "../api/userAPI";
+import Cookies from "js-cookie";
 
 function UserInfo() {
-  const accessToken = useSelector((state) => state.counter.accessToken);
-  const refreshToken = useSelector((state) => state.counter.refreshToken);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [fname, setfname] = useState("");
   const [lname, setlname] = useState("");
   const [email, setEmail] = useState("");
+  const accessToken = Cookies.get("user-0task");
+  const refreshToken = useSelector((state) => state.counter.refreshToken);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const inputStyles = "p-3 my-2 w-4/5 rounded font-bold max-w-sm";
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
