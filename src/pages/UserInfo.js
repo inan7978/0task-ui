@@ -58,7 +58,7 @@ function UserInfo() {
     setEmail(data[0].email);
   }
 
-  return accessToken !== "" ? (
+  return accessToken !== undefined ? (
     <form onSubmit={saveChanges}>
       <div className="container mx-auto flex flex-col items-center">
         <h1 className="text-white text-2xl mb-5 font-bold underline">{`${fname}'s account`}</h1>

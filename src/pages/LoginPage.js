@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
 import { _login } from "../api/authAPI";
 import logo from "../img/logo_0task.svg";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -15,17 +16,18 @@ export default function LoginPage() {
       document.getElementById("password").value
     );
 
-    console.log("result of login: ", auth);
+    // console.log("result of login: ", auth);
     if (auth.status === "An issue occured.") {
       alert("Incorrect password.");
     } else {
-      dispatch(
-        setAccess({ valueName: "accessToken", data: `${auth.accessToken}` })
-      );
-      dispatch(
-        setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
-      );
-      dispatch(setFields({ valueName: "_id", data: `${auth.userId}` }));
+      // dispatch(
+      //   setAccess({ valueName: "accessToken", data: `${auth.accessToken}` })
+      // );
+      Cookies.set("token", auth.accessToken, { expires: 60, secure: true });
+      // dispatch(
+      //   setAccess({ valueName: "refreshToken", data: `${auth.refreshToken}` })
+      // );
+      // dispatch(setFields({ valueName: "_id", data: `${auth.userId}` }));
       navigate("../tasks");
     }
   }

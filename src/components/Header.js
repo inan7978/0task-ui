@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAccess, setFields } from "../redux-stuff/counterSlice";
 import { _clearTokens } from "../api/authAPI";
 import logo from "../img/logo_0task.svg";
+import Cookies from "js-cookie";
 
 // simply add the name and the path
 const navigation = [
@@ -17,13 +18,15 @@ const navigation = [
 ];
 
 export default function Header() {
-  const token = useSelector((state) => state.counter.accessToken);
+  const token = Cookies.get("token");
+  console.log("Cookie: ", token);
   const refreshToken = useSelector((state) => state.counter.refreshToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   async function logout() {
+    Cookies.remove("token");
     console.log("Log out has been clicked");
     dispatch(setAccess({ valueName: "accessToken", data: `` }));
     dispatch(setAccess({ valueName: "refreshToken", data: `` }));
@@ -72,7 +75,7 @@ export default function Header() {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {token === "" ? (
+          {token === undefined ? (
             <a
               onClick={() => {
                 navigate("./login");
@@ -138,7 +141,7 @@ export default function Header() {
                 ))}
               </div>
               <div className="py-6">
-                {token === "" ? (
+                {token === undefined ? (
                   <a
                     onClick={() => {
                       setMobileMenuOpen(false);

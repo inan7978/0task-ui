@@ -12,9 +12,11 @@ import {
   _editTask,
 } from "../api/taskAPI";
 
+import Cookies from "js-cookie";
+
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
-  const token = useSelector((state) => state.counter.accessToken);
+  const token = Cookies.get("token");
   const navigate = useNavigate();
 
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
@@ -92,7 +94,7 @@ function TasksPage() {
   async function getTasks(token) {
     const data = await _getTasks(token);
 
-    console.log("Tasks", JSON.stringify(data.tasks));
+    // console.log("Tasks", JSON.stringify(data.tasks));
     setTasks(data.tasks);
   }
 

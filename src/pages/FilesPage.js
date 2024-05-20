@@ -8,6 +8,7 @@ import {
 } from "../api/filesAPI";
 import cross from "../img/cross.svg";
 import download from "../img/download.svg";
+import Cookies from "js-cookie";
 
 function FileBlock({ file, deleteFile, downloadFile, token }) {
   let temp = file.Key;
@@ -55,7 +56,7 @@ function FileBlock({ file, deleteFile, downloadFile, token }) {
             downloadFile(token, file.Key);
           }}
           src={download}
-          alt="delete-file-button"
+          alt="download-file-button"
         />
       </div>
     </div>
@@ -66,19 +67,19 @@ function FilesPage() {
   const [files, setFiles] = useState();
   const [list, setList] = useState();
   const [loading, setLoading] = useState(false);
-  const token = useSelector((state) => state.counter.accessToken);
-  const user = useSelector((state) => state.counter._id);
+  const token = Cookies.get("token");
+  const user = "";
 
   // should try to do this functionality without using state
-  console.log("userId in uploadFile function: ", user);
-  console.log("Token: ", token);
+  // console.log("userId in uploadFile function: ", user);
+  // console.log("Token: ", token);
 
   useEffect(() => {
-    getFiles(token, user);
+    getFiles(token);
   }, [loading]);
 
-  async function getFiles(token, user) {
-    const data = await _getFiles(token, user);
+  async function getFiles(token) {
+    const data = await _getFiles(token);
     setList(data.contents);
   }
 

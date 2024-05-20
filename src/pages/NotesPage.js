@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _getNotes, _newNote } from "../api/noteAPI";
+import Cookies from "js-cookie";
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
   const [searched, setSearched] = useState([]);
   const [search, setSearch] = useState();
-  const token = useSelector((state) => state.counter.accessToken);
+  const token = Cookies.get("token");
   const navigate = useNavigate();
 
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
