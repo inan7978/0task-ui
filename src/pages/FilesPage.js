@@ -114,7 +114,7 @@ function FilesPage() {
 
   async function downloadFile(token, key) {
     const data = await _downloadFile(token, key);
-    console.log("Temp URL: ", data);
+    // console.log("Temp URL: ", data);
 
     function download(url) {
       // a bit hacky but it works lol
