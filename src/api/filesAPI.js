@@ -13,15 +13,14 @@ export async function _uploadFile(token, formData) {
   return data;
 }
 
-export async function _getFiles(token, user) {
-  console.log("User on front end: ", user);
+export async function _getFiles(token) {
+  // console.log("User on front end: ", user);
   const result = await fetch(`${BASE_URL}/user-files`, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ user: user }),
   });
 
   const data = await result.json();
@@ -48,7 +47,7 @@ export async function _downloadFile(token, key) {
   const result = await fetch(`${BASE_URL}/download-file`, {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ toDownload: key }),

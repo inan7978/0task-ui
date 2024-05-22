@@ -1,13 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { UseSelector, useSelector } from "react-redux";
 import { _saveChanges, _deleteNote } from "../api/noteAPI";
+import Cookies from "js-cookie";
 
 function EditNotePage() {
   const { state } = useLocation();
   const { _id, description } = state;
   const navigate = useNavigate();
 
-  const token = useSelector((state) => state.counter.accessToken);
+  const token = Cookies.get("user-0task");
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
   async function saveChanges() {

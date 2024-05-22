@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _getNotes, _newNote } from "../api/noteAPI";
+import Cookies from "js-cookie";
 
 function NotesPage() {
   const [notes, setNotes] = useState([]);
   const [searched, setSearched] = useState([]);
   const [search, setSearch] = useState();
-  const token = useSelector((state) => state.counter.accessToken);
+  const token = Cookies.get("user-0task");
   const navigate = useNavigate();
 
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
@@ -28,7 +29,7 @@ function NotesPage() {
 
   async function getNotes(token) {
     const result = await _getNotes(token);
-    console.log("notes :", result.notes);
+    // console.log("notes :", result.notes);
     setNotes(result.notes);
     setSearched(result.notes); // so it can initially render them all
   }
@@ -52,7 +53,7 @@ function NotesPage() {
       })
     : null;
 
-  return token !== "" ? (
+  return token !== undefined ? (
     <div>
       <div className="container mx-auto flex flex-col justify-center items-center max-w-screen-xl">
         <div className="flex gap-5 my-10">

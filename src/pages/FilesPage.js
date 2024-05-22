@@ -8,6 +8,8 @@ import {
 } from "../api/filesAPI";
 import cross from "../img/cross.svg";
 import download from "../img/download.svg";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function FileBlock({ file, deleteFile, downloadFile, token }) {
   let temp = file.Key;
@@ -55,7 +57,7 @@ function FileBlock({ file, deleteFile, downloadFile, token }) {
             downloadFile(token, file.Key);
           }}
           src={download}
-          alt="delete-file-button"
+          alt="download-file-button"
         />
       </div>
     </div>
@@ -66,23 +68,24 @@ function FilesPage() {
   const [files, setFiles] = useState();
   const [list, setList] = useState();
   const [loading, setLoading] = useState(false);
-  const token = useSelector((state) => state.counter.accessToken);
-  const user = useSelector((state) => state.counter._id);
+  const token = Cookies.get("user-0task");
+  const navigate = useNavigate();
+  const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
   // should try to do this functionality without using state
-  console.log("userId in uploadFile function: ", user);
-  console.log("Token: ", token);
+  // console.log("userId in uploadFile function: ", user);
+  // console.log("Token: ", token);
 
   useEffect(() => {
-    getFiles(token, user);
+    getFiles(token);
   }, [loading]);
 
-  async function getFiles(token, user) {
-    const data = await _getFiles(token, user);
+  async function getFiles(token) {
+    const data = await _getFiles(token);
     setList(data.contents);
   }
 
-  async function uploadFile(token, user) {
+  async function uploadFile(token) {
     if (files) {
       setLoading(true);
       // console.log("files to add to formData: ", files);
@@ -90,7 +93,6 @@ function FilesPage() {
       Object.keys(files).forEach((key) => {
         formData.append(files.item(key).name, files.item(key));
       });
-      formData.append("user", user);
       console.log(...formData);
 
       const data = await _uploadFile(token, formData);
@@ -145,29 +147,45 @@ function FilesPage() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          uploadFile(token, user);
+          uploadFile(token);
         }}
       >
-        <div className="container flex px-2 justify-center items-center flex-col mx-auto">
-          <h1 className="text-white my-5 font-medium">
-            Upload and view your files here 👇
-          </h1>
-          <input
-            type="file"
-            className="block w-full max-w-[500px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            name="myFiles"
-            onChange={(e) => {
-              setFiles(e.target.files);
-            }}
-            multiple
-          />
-          <button
-            type="submit"
-            className="p-2 my-5 bg-green-500 text-white rounded w-36 font-bold"
-          >
-            Upload
-          </button>
-        </div>
+        {token !== undefined ? (
+          <div className="container flex px-2 justify-center items-center flex-col mx-auto">
+            <h1 className="text-white my-5 font-medium">
+              Upload and view your files here 👇
+            </h1>
+            <input
+              type="file"
+              className="block w-full max-w-[500px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              name="myFiles"
+              onChange={(e) => {
+                setFiles(e.target.files);
+              }}
+              multiple
+            />
+            <button
+              type="submit"
+              className="p-2 my-5 bg-green-500 text-white rounded w-36 font-bold"
+            >
+              Upload
+            </button>
+          </div>
+        ) : (
+          <div className="container mx-auto flex flex-col items-center">
+            <h1 className="text-white text-2xl my-5 font-bold">
+              You need to sign in!
+            </h1>
+            <button
+              className={btnStyle + " bg-green-500"}
+              onClick={() => {
+                navigate("../login");
+              }}
+            >
+              Log in here
+            </button>
+          </div>
+        )}
       </form>
       <div className="container mx-auto flex flex-col items-center my-5">
         {loading && <h1 className="text-white font-bold">Uploading...⏳</h1>}

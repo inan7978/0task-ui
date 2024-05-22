@@ -12,9 +12,11 @@ import {
   _editTask,
 } from "../api/taskAPI";
 
+import Cookies from "js-cookie";
+
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
-  const token = useSelector((state) => state.counter.accessToken);
+  const token = Cookies.get("user-0task");
   const navigate = useNavigate();
 
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
@@ -39,7 +41,7 @@ function TasksPage() {
     const data = await _deleteTask(token, toDelete);
 
     if (data.status === -1) {
-      console("A server error has occured. The new task was not deleted.");
+      console.log("A server error has occured. The new task was not deleted.");
       getTasks(token);
     } else {
       getTasks(token);
@@ -92,7 +94,7 @@ function TasksPage() {
   async function getTasks(token) {
     const data = await _getTasks(token);
 
-    console.log("Tasks", JSON.stringify(data.tasks));
+    // console.log("Tasks", JSON.stringify(data.tasks));
     setTasks(data.tasks);
   }
 
@@ -129,7 +131,7 @@ function TasksPage() {
       })
     : null;
 
-  return token !== "" ? (
+  return token !== undefined ? (
     <div className="container mx-auto sm:w-4/5 md:w-1/2 lg:max-w-[800px]">
       <h1 className="text-white text-center text-3xl my-20">
         Tasks Remaining:{" "}
