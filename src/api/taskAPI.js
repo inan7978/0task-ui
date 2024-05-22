@@ -55,9 +55,7 @@ export async function _editTask(toEdit, newVal, token) {
   });
 
   const data = await result.json();
-  console.log("Task to edit: ", toEdit);
-  console.log("New task value: ", newVal);
-  return 0;
+  return data;
 }
 
 export async function _completeTask(toComplete, token) {

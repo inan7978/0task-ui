@@ -22,17 +22,17 @@ function TasksPage() {
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
   async function createTask() {
-    const data = await _createTask(
+    const create = await _createTask(
       token,
       document.getElementById("new-task").value
     );
-    if (data.status === -1) {
-      console("A server error has occured. The new task was not added.");
+    if (create.status === "OK") {
+      document.getElementById("new-task").value = ""; // do you really need this?
+      console.log(create.data);
       getTasks(token);
     } else {
-      document.getElementById("new-task").value = "";
+      console(create.data);
       getTasks(token);
-      console.log(data);
     }
   }
 
@@ -40,12 +40,12 @@ function TasksPage() {
     console.log("Request to delete: ", toDelete);
     const data = await _deleteTask(token, toDelete);
 
-    if (data.status === -1) {
+    if (data.status === "OK") {
       console.log("A server error has occured. The new task was not deleted.");
       getTasks(token);
     } else {
+      console.log(data.data);
       getTasks(token);
-      console.log(data);
     }
   }
 
@@ -53,48 +53,43 @@ function TasksPage() {
     console.log("Requesting to mark as completed: ", toComplete);
     const data = await _completeTask(toComplete, token);
 
-    if (data.status === -1) {
-      console.log(
-        "A server error has occured. The new task was not completed."
-      );
+    if (data.status === "OK") {
+      console.log(data.data);
       getTasks(token);
     } else {
+      console.log(data.data);
       getTasks(token);
-      console.log(data);
     }
   }
   async function uncompleteTask(toUncomplete) {
     console.log("Requesting to mark as uncompleted: ", toUncomplete);
     const data = await _uncompleteTask(toUncomplete, token);
 
-    if (data.status === -1) {
-      console.log(
-        "A server error has occured. The new task was not marked as needing completion."
-      );
+    if (data.status === "OK") {
+      console.log(data.data);
       getTasks(token);
     } else {
+      console.log(data.data);
       getTasks(token);
-      console.log(data);
     }
   }
 
   async function editTask(toEdit, newVal) {
     console.log("Editting task: ", toEdit);
-    const data = await _editTask(toEdit, newVal, token);
+    const edit = await _editTask(toEdit, newVal, token);
 
-    if (data.status === -1) {
-      console.log("A server error has occured. The task was not modified.");
+    if (edit.status === "OK") {
+      console.log(edit.data);
       getTasks(token);
     } else {
+      console.log(edit.data);
       getTasks(token);
-      console.log(data);
     }
   }
 
   async function getTasks(token) {
+    console.log("Getting tasks...");
     const data = await _getTasks(token);
-
-    // console.log("Tasks", JSON.stringify(data.tasks));
     setTasks(data.tasks);
   }
 
