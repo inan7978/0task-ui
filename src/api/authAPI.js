@@ -1,7 +1,7 @@
 import { BASE_URL } from "./baseURL";
 
 export async function _login(email, password) {
-  const getTokens = await fetch(`${BASE_URL}/login`, {
+  const getTokens = await fetch(`${BASE_URL}/get-token`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
