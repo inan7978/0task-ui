@@ -1,7 +1,7 @@
 import { BASE_URL } from "./baseURL";
 
 export async function _loadInfo(token) {
-  const result = await fetch(`${BASE_URL}/user-info`, {
+  const result = await fetch(`${BASE_URL}/GET-INFO-USER`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export async function _loadInfo(token) {
 }
 
 export async function _updateUser(token, newInfo) {
-  const result = await fetch(`${BASE_URL}/update-user`, {
+  const result = await fetch(`${BASE_URL}/PUT-USER`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 import { BASE_URL } from "./baseURL";
 
 export async function _getTasks(token) {
-  const response = await fetch(`${BASE_URL}/get-tasks`, {
+  const response = await fetch(`${BASE_URL}/GET-TASKS`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export async function _getTasks(token) {
   return data;
 }
 export async function _createTask(token, description) {
-  const response = await fetch(`${BASE_URL}/new-task`, {
+  const response = await fetch(`${BASE_URL}/POST-TASK`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -30,7 +30,7 @@ export async function _createTask(token, description) {
 }
 
 export async function _deleteTask(token, toDelete) {
-  const response = await fetch(`${BASE_URL}/delete-task`, {
+  const response = await fetch(`${BASE_URL}/DELETE-TASK`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export async function _deleteTask(token, toDelete) {
 }
 
 export async function _editTask(toEdit, newVal, token) {
-  const result = await fetch(`${BASE_URL}/edit-task`, {
+  const result = await fetch(`${BASE_URL}/PUT-TASK`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export async function _editTask(toEdit, newVal, token) {
 }
 
 export async function _completeTask(toComplete, token) {
-  const result = await fetch(`${BASE_URL}/toggle-done`, {
+  const result = await fetch(`${BASE_URL}/PUT-COMPLETE`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export async function _completeTask(toComplete, token) {
 }
 
 export async function _uncompleteTask(toUncomplete, token) {
-  const result = await fetch(`${BASE_URL}/toggle-not-done`, {
+  const result = await fetch(`${BASE_URL}/PUT-INCOMPLETE`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

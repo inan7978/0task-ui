@@ -1,7 +1,7 @@
 import { BASE_URL } from "./baseURL";
 
 export async function _login(email, password) {
-  const getTokens = await fetch(`${BASE_URL}/get-token`, {
+  const getTokens = await fetch(`${BASE_URL}/GET-TOKEN`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -14,7 +14,7 @@ export async function _login(email, password) {
 }
 
 export async function _register(email, pass) {
-  const register = await fetch(`${BASE_URL}/register-new`, {
+  const register = await fetch(`${BASE_URL}/PUT-USER`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export async function _register(email, pass) {
 }
 
 export async function _clearTokens(token, refreshToken) {
-  const result = await fetch(`${BASE_URL}/logout`, {
+  const result = await fetch(`${BASE_URL}/DELETE-TOKEN`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

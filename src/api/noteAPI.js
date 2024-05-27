@@ -1,7 +1,7 @@
 import { BASE_URL } from "./baseURL";
 
 export async function _getNotes(token) {
-  const result = await fetch(`${BASE_URL}/get-notes`, {
+  const result = await fetch(`${BASE_URL}/GET-NOTES`, {
     method: "GET",
     headers: {
       "Content-type": "application/json", // is this part really needed?
@@ -14,7 +14,7 @@ export async function _getNotes(token) {
 }
 
 export async function _newNote(token) {
-  const result = await fetch(`${BASE_URL}/new-note`, {
+  const result = await fetch(`${BASE_URL}/POST-NOTE`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -28,7 +28,7 @@ export async function _newNote(token) {
 }
 
 export async function _saveChanges(token, newNote, _id) {
-  const result = await fetch(`${BASE_URL}/edit-note`, {
+  const result = await fetch(`${BASE_URL}/PUT-NOTE`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export async function _saveChanges(token, newNote, _id) {
 }
 
 export async function _deleteNote(token, _id) {
-  const result = await fetch(`${BASE_URL}/delete-note`, {
+  const result = await fetch(`${BASE_URL}/DELETE-NOTE`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
