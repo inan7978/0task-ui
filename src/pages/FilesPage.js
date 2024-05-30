@@ -67,6 +67,7 @@ function FileBlock({ file, deleteFile, downloadFile, token }) {
 function FilesPage() {
   const [files, setFiles] = useState();
   const [list, setList] = useState();
+  const [message, setMessage] = useState();
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("user-0task");
   const navigate = useNavigate();
@@ -97,7 +98,10 @@ function FilesPage() {
 
       const data = await _uploadFile(token, formData);
 
-      console.log(data.message);
+      console.log(`Result of upload: ${data.status}. ${data.data}`);
+
+      setMessage(data.data);
+
       setLoading(false);
     } else {
       console.log("No files selected.");
@@ -153,8 +157,9 @@ function FilesPage() {
         {token !== undefined ? (
           <div className="container flex px-2 justify-center items-center flex-col mx-auto">
             <h1 className="text-white my-5 font-medium">
-              Upload and view your files here 👇
+              Upload and view your files here 👇(10MB max file size)
             </h1>
+            <h1 className="text-white my-5 font-medium">{message}</h1>
             <input
               type="file"
               className="block w-full max-w-[500px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
