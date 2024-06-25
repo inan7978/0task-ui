@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 // simply add the name and the path
 const navigation = [
   { name: "Notes", to: "notes" },
-  // { name: "Tools", to: "tools" },
+  // { name: "Tools", to: "tools" }, can start by adding a calcualtor that determines how much interest accrues per day
   { name: "Tasks", to: "tasks" },
   { name: "Files", to: "files" },
   { name: "Account", to: "user-info" },
