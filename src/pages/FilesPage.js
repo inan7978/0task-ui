@@ -30,29 +30,28 @@ function FileBlock({ file, deleteFile, downloadFile, token }) {
 
   return (
     <div>
-      <li key={file.Key} className="col-span-1 flex rounded-md shadow-sm">
+      <li
+        key={file.Key}
+        onClick={() => {
+          downloadFile(token, file.Key);
+        }}
+        className="col-span-1 flex rounded-md shadow-sm cursor-pointer"
+      >
         <div className="flex flex-1 items-center justify-between truncate rounded-md border-b border-r border-t border-gray-200 bg-white">
           <div className="flex-1 truncate px-4 py-2 text-sm">
-            <button
-              onClick={() => {
-                downloadFile(token, file.Key);
-              }}
-              className="font-medium text-gray-900"
-            >
-              {newName}
-            </button>
+            <h1 className="font-medium text-gray-900">{newName}</h1>
             <p className="text-gray-500">{stringSize}</p>
           </div>
           <div className="flex-shrink-0 pr-2">
             <button
               type="button"
-              class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              class="bg-red-400 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-red-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 deleteFile(token, file.Key);
               }}
             >
-              <span class="sr-only">Close menu</span>
               <svg
                 class="h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -173,7 +172,7 @@ function FilesPage() {
             <h1 className="text-white my-5 font-medium">{message}</h1>
             <input
               type="file"
-              className="block w-full max-w-[500px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              className="block w-full max-w-[250px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               name="myFiles"
               onChange={(e) => {
                 setFiles(e.target.files);
@@ -209,7 +208,7 @@ function FilesPage() {
         </h1>
         <div
           role="list"
-          className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 p-2"
+          className="mt-3 grid grid-cols-1 gap-5 p-2 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4"
         >
           {mappedFiles}
         </div>
