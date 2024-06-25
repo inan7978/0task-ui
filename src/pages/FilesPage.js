@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import {
   _getFiles,
   _uploadFile,
   _deleteFile,
   _downloadFile,
 } from "../api/filesAPI";
-import cross from "../img/cross.svg";
-import download from "../img/download.svg";
+
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -30,36 +28,49 @@ function FileBlock({ file, deleteFile, downloadFile, token }) {
     stringSize = `${(Math.round(size * 100) / 100).toFixed(2)} Bytes`;
   }
 
-  const btnStyles = "w-1/2 h-20 p-5 cursor-pointer rounded";
   return (
-    <div
-      className="flex p-3 h-100 my-2 bg-zinc-100 w-11/12 max-w-md gap-2 justify-center rounded"
-      key={file.Key}
-    >
-      <div className="w-3/5 container flex flex-col justify-center break-words">
-        <h1 className="text-lg font-bold">{newName}</h1>
-        <h1 className="text-sm">{stringSize}</h1>
-      </div>
-      <div className="w-36 flex gap-1">
-        <img
-          className={btnStyles + " bg-red-200"}
-          src={cross}
-          onClick={(e) => {
-            e.preventDefault();
-            deleteFile(token, file.Key);
-          }}
-          alt="delete-file-button"
-        />
-        <img
-          className={btnStyles + " bg-blue-200"}
-          onClick={(e) => {
-            e.preventDefault();
-            downloadFile(token, file.Key);
-          }}
-          src={download}
-          alt="download-file-button"
-        />
-      </div>
+    <div>
+      <li
+        key={file.Key}
+        onClick={() => {
+          downloadFile(token, file.Key);
+        }}
+        className="col-span-1 flex rounded-md shadow-sm cursor-pointer"
+      >
+        <div className="flex flex-1 items-center justify-between truncate rounded-md border-b border-r border-t border-gray-200 bg-white">
+          <div className="flex-1 truncate px-4 py-2 text-sm">
+            <h1 className="font-medium text-gray-900">{newName}</h1>
+            <p className="text-gray-500">{stringSize}</p>
+          </div>
+          <div className="flex-shrink-0 pr-2">
+            <button
+              type="button"
+              class="bg-red-400 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-red-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteFile(token, file.Key);
+              }}
+            >
+              <svg
+                class="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </li>
     </div>
   );
 }
@@ -74,8 +85,6 @@ function FilesPage() {
   const btnStyle = "p-3 w-36 mt-5 text-white text-1xl rounded";
 
   // should try to do this functionality without using state
-  // console.log("userId in uploadFile function: ", user);
-  // console.log("Token: ", token);
 
   useEffect(() => {
     getFiles(token);
@@ -84,6 +93,7 @@ function FilesPage() {
   async function getFiles(token) {
     const data = await _getFiles(token);
     setList(data.contents);
+    console.log(data.contents);
   }
 
   async function uploadFile(token) {
@@ -157,12 +167,12 @@ function FilesPage() {
         {token !== undefined ? (
           <div className="container flex px-2 justify-center items-center flex-col mx-auto">
             <h1 className="text-white my-5 font-medium">
-              Upload and view your files here 👇(10MB max file size)
+              10 MB max files size
             </h1>
             <h1 className="text-white my-5 font-medium">{message}</h1>
             <input
               type="file"
-              className="block w-full max-w-[500px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              className="block w-full max-w-[250px] text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               name="myFiles"
               onChange={(e) => {
                 setFiles(e.target.files);
@@ -193,8 +203,15 @@ function FilesPage() {
         )}
       </form>
       <div className="container mx-auto flex flex-col items-center my-5">
-        {loading && <h1 className="text-white font-bold">Uploading...⏳</h1>}
-        {mappedFiles}
+        <h1 className="text-white font-bold">
+          {loading ? "Loading...⏳" : "Your files 👇"}
+        </h1>
+        <div
+          role="list"
+          className="mt-3 grid grid-cols-1 gap-5 p-2 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4"
+        >
+          {mappedFiles}
+        </div>
       </div>
     </div>
   );
